@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>not sure if this counts as a game engine at all but idk how else to refer it</title>
+    <style>
+        body {
+            background-color: #555555;
+        }
+        
+        canvas {
+            background-color: black;
+            position: fixed;
+            top: 50%;
+            left: 25%;            
+            transform: translate(-50%, -50%);
+        }
+        
+        #code {
+            width: 200px;
+            height: 200px;
+            position: fixed;
+            left: 55%;
+        }
+        
+        button {
+            position: fixed;
+            left: 55%;
+            top: 210px;
+        }
+        
+        a{
+            position: fixed;
+            left: 55%;
+            top: 250px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" height="400px" width="400px"></canvas>
+    <textarea id="code" placeholder="player.size = 20
+(if no code is written, the default values will be used)" height="200px" width="200px"></textarea>
+    <button onclick="runCode()">submit</button>
+    <a href="list.html">list of premade properties</a>
+    <script>
+var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        
+        class Thing {
+            constructor(x, y, size, Xvelocity, Yvelocity, color, bounce) {
+                this.x = x;
+                this.y = y;
+                this.size = size;
+                this.Xvelocity = Xvelocity;
+                this.Yvelocity = Yvelocity;
+                this.color = color;
+                this.bounce = bounce;
+            }
+        }
+        
+        let player = new Thing(200, 200, 20, 0, 0, 'white', false);
+        
+        class Canvas {
+            constructor(height, width, color) {
+                this.height = height;
+                this.width = width;
+                this.color = color;
+            }
+        }
+        
+        
+        let area = new Canvas(400, 400, 'black');
+        
+        function runCode(){
+            var code = document.getElementById("code").value;
+            eval(code);
+            
+            canvas.height = area.height;
+            canvas.width = area.width;
+            canvas.style.backgroundColor = area.color;
+            
+            drawSquare();
+            move();
+        }
+        
+        function move(){
+                if(player.bounce === true) {
+                    if((player.x <= 0 && player.y <= 0) || (player.x <= 0 && player.y >= area.height - player.size) || (player.x >= area.width - player.size && player.y <= 0) || (player.x >= area.width - player.size && player.y >= area.height - player.size)){
+                    
+         player.Xvelocity *= -1;
+         player.Yvelocity *= -1;
+         
+         }else if(player.y >= area.height - player.size || player.y <= 0){
+         
+         player.Yvelocity *= -1;
+         
+        }else if(player.x >= area.width - player.size || player.x <= 0){
+        
+         player.Xvelocity *= -1;
+         
+        }
+        
+         clearSquare();
+         player.x += player.Xvelocity;
+         player.y += player.Yvelocity;
+         drawSquare();
+         requestAnimationFrame(move);
+        
+                }
+        }
+        
+    function drawSquare(){
+   ctx.fillStyle = player.color;
+   ctx.fillRect(player.x, player.y, player.size, player.size);
+    }
+
+
+    function clearSquare(){
+   ctx.clearRect(player.x, player.y, player.size, player.size);
+    }
+        </script>
