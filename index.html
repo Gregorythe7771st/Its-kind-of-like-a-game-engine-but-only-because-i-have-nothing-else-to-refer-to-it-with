@@ -65,6 +65,8 @@
         for(let i = 1; i < 501; i++) {
             var randomJiggle = (Math.random() * 2 - 1) * 5
            map[i] = map[i - 1] + randomJiggle
+            
+           map[i] = (map[i] + map[i - 1]) / 2
            
            if(map[i] <= waterLevel) {
             ctx.strokeStyle = "rgb(60, 40, 20)"
@@ -111,7 +113,8 @@
         for(let i = 1; i < 501; i++){
            var randomJiggle = (Math.random() * 2 - 1) * 5
            map[i] = map[i - 1] + randomJiggle
-                             
+            
+           map[i] = (map[i] + map[i - 1]) / 2                 
            
            if(map[i] <= waterLevel) {
             ctx.strokeStyle = "rgb(60, 40, 20)"
