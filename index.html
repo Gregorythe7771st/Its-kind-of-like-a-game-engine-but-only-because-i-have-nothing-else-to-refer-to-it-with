@@ -23,11 +23,78 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        
+        #U {
+            position: fixed;
+            top: 66%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            user-select: none;
+        }
+        
+        #D {
+            position: fixed;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            user-select: none;
+        }
+        
+        #R {
+            position: fixed;
+            top: 70%;
+            left: 44%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            user-select: none;
+        }
+        
+        #L {
+            position: fixed;
+            top: 70%;
+            left: 58%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            user-select: none;
+        }
+        
+        #RL {
+            position: fixed;
+            top: 80%;
+            left: 44%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            user-select: none;
+        }
+        
+        #RR {
+            position: fixed;
+            top: 80%;
+            left: 58%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            user-select: none;
+        }
+        
     </style>
 </head>
 <body>
 <canvas id="canvas" width="500px" height="500px"></canvas>
 <canvas id="vision" width="500px" height="75px"></canvas>
+<button id="U">Forward</button>
+<button id="D">Backward</button>
+<button id="L">Right</button>
+<button id="R">Left</button>
+<button id="RL">Rotate Left</button>
+<button id="RR">Rotate Right</button>
 <script>
 let x = 250;
 let y = 200;
@@ -59,87 +126,135 @@ let rotateL = false;
 document.addEventListener('keydown', function(event) {
     if (event.keyCode === 87) {
         up = true;
-        move();
     }
 });
 
 document.addEventListener('keyup', function(event) {
     if (event.keyCode === 87) {
         up = false;
-        move();
     }
 });
 
 document.addEventListener('keydown', function(event) {
     if (event.keyCode === 83) {
         down = true;
-        move();
     }
 });
 
 document.addEventListener('keyup', function(event) {
     if (event.keyCode === 83) {
         down = false;
-        move();
     }
 });
 
 document.addEventListener('keydown', function(event) {
     if (event.keyCode === 65) {
         left = true;
-        move();
     }
 });
 
 document.addEventListener('keyup', function(event) {
     if (event.keyCode === 65) {
         left = false;
-        move();
     }
 });
 
 document.addEventListener('keydown', function(event) {
     if (event.keyCode === 68) {
         right = true;
-        move();
     }
 });
 
 document.addEventListener('keyup', function(event) {
     if (event.keyCode === 68) {
         right = false;
-        move();
     }
 });
 
 document.addEventListener('keydown', function(event) {
     if (event.keyCode === 37) {
         rotateL = true;
-        move();
     }
 });
 
 document.addEventListener('keyup', function(event) {
     if (event.keyCode === 37) {
         rotateL = false;
-        move();
     }
 });
 
 document.addEventListener('keydown', function(event) {
     if (event.keyCode === 39) {
         rotateR = true;
-        move();
     }
 });
 
 document.addEventListener('keyup', function(event) {
     if (event.keyCode === 39) {
         rotateR = false;
-        move();
     }
 });
 
+let buttonR = document.getElementById("L")
+let buttonL = document.getElementById("R")
+let buttonF = document.getElementById("U")
+let buttonB = document.getElementById("D")
+let buttonRL = document.getElementById("RL")
+let buttonRR = document.getElementById("RR")
+    
+    buttonL.ontouchstart = function() {
+        left = true
+        this.style.backgroundColor = "#555"
+    }
+    buttonL.ontouchend = function() {
+        left = false
+        this.style.backgroundColor = ""
+    }
+
+    buttonR.ontouchstart = function() {
+        right = true
+        this.style.backgroundColor = "#555"
+    }
+    buttonR.ontouchend = function() {
+        right = false
+        this.style.backgroundColor = ""
+    }
+
+    buttonF.ontouchstart = function() {
+        up = true
+        this.style.backgroundColor = "#555"
+    }
+    buttonF.ontouchend = function() {
+        up = false
+        this.style.backgroundColor = ""
+    }
+
+    buttonB.ontouchstart = function() {
+        down = true
+        this.style.backgroundColor = "#555"
+    }
+    buttonB.ontouchend = function() {
+        down = false
+        this.style.backgroundColor = ""
+    }
+    
+    buttonRL.ontouchstart = function() {
+        rotateL = true
+        this.style.backgroundColor = "#555"
+    }
+    buttonRL.ontouchend = function() {
+        rotateL = false
+        this.style.backgroundColor = ""
+    }
+
+    buttonRR.ontouchstart = function() {
+        rotateR = true
+        this.style.backgroundColor = "#555"
+    }
+    buttonRR.ontouchend = function() {
+        rotateR = false
+        this.style.backgroundColor = ""
+    }
 
 
 function drawSquare() {
@@ -153,39 +268,47 @@ function clearSquare() {
 }
 
 function move() {
-
     clearSquare();
     clearRays();
     clearVision();
 
+    // Adjusting movement based on rotation angle
+    const angleRad = rotation * Math.PI / 180;
+    const moveX = Math.cos(angleRad);
+    const moveY = Math.sin(angleRad);
+
     if(up) {
-        y--;
+        x += moveX;
+        y += moveY;
     }
     
     if(down) {
-        y++;
+        x -= moveX;
+        y -= moveY;
     }
     
     if(left) {
-        x--
+        x -= moveY;
+        y += moveX;
     }
     
     if(right) {
-        x++
+        x += moveY;
+        y -= moveX;
     }
     
     if(rotateL) {
-        rotation--
+        rotation--;
     }
     
     if(rotateR) {
-        rotation++
+        rotation++;
     }
     
-    pixel = 0   
+    pixel = 0;
     drawSquare();
     castRays();
-    setTimeout(move, 4);
+    setTimeout(move, 4);    
 }
 
 function renderMap(){
