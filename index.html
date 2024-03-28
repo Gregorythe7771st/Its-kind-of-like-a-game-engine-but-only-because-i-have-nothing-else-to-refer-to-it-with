@@ -2,196 +2,329 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Terrain generator</title>
+    <title>Raycaster</title>
     <style>
-        canvas{
-            background-color: black;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        body{
+        body {
             background-color: #555555;
+            margin: 0;
+            overflow: hidden;
         }
-        
-        #generate{
+        canvas {
             position: fixed;
-            top: 70%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
+            background-color: black;
         }
         
-        textarea{
+        #vision {
             position: fixed;
-            top: 75%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        #load{
-            position: fixed;
-            top: 77%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        #copy{
-            position: fixed;
-            top: 72%;
+            top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
-    <canvas height="500px" width="500px" id="canvas"></canvas>
-    <button id="generate" onclick="generateTerrain()">Regenerate</button>
-    <button id="load" onclick="load()">load</button>
-    <button id="copy" onclick="copy()">copy terrain</button>
-    <textarea></textarea>
-    <script>
-        
-        var canvas = document.getElementById('canvas');
-        var ctx = canvas.getContext('2d');
-        
-        let startingPoint = 250 + (Math.random() * 2 - 1) * 50;
-        
-        let map = [startingPoint];
-        
-        let waterLevel = 250 + (Math.random() * 2 - 1) * 50;
-        
-        for(let i = 1; i < 501; i++) {
-            var randomJiggle = (Math.random() * 2 - 1) * 5
-           map[i] = map[i - 1] + randomJiggle
-            
-           map[i] = (map[i] + map[i - 1]) / 2
-           
-           if(map[i] <= waterLevel) {
-            ctx.strokeStyle = "rgb(60, 40, 20)"
-           
-            ctx.beginPath()
-            ctx.moveTo(i, 500)
-            ctx.lineTo(i, map[i])
-            ctx.stroke()
-            ctx.strokeStyle = "rgb(0, 200, 255)"
-            ctx.beginPath()
-            ctx.moveTo(i, map[i])
-            ctx.lineTo(i, 0)
-            ctx.stroke()                       
-            } else {
-                ctx.strokeStyle = "rgb(60, 40, 20)"
-                ctx.beginPath()
-                ctx.moveTo(i, 500)
-                ctx.lineTo(i, map[i])
-                ctx.stroke()                
-                ctx.strokeStyle = 'blue'
-                ctx.beginPath()
-                ctx.moveTo(i, map[i])
-                ctx.lineTo(i, waterLevel)
-                ctx.stroke()
-                ctx.strokeStyle = "rgb(0, 200, 255)"
-            ctx.beginPath()
-            ctx.moveTo(i, waterLevel)
-            ctx.lineTo(i, 0)
-            ctx.stroke()                                           
-               }
-           
-        }                        
+<canvas id="canvas" width="500px" height="500px"></canvas>
+<canvas id="vision" width="500px" height="75px"></canvas>
+<script>
+let x = 250;
+let y = 200;
+let rotation = 0;
+let pixel = 0
+const vision = document.getElementById("vision")
+const vctx = vision.getContext("2d")
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-        function generateTerrain() {                 
-                
-        ctx.clearRect(0, 0, 500, 500)
-        
-        startingPoint = 250 + (Math.random() * 2 - 1) * 50
-        
-        map = [startingPoint];
-        
-        waterLevel = 250 + (Math.random() * 2 - 1) * 50
-                
-        for(let i = 1; i < 501; i++){
-           var randomJiggle = (Math.random() * 2 - 1) * 5
-           map[i] = map[i - 1] + randomJiggle
-            
-           map[i] = (map[i] + map[i - 1]) / 2                 
-           
-           if(map[i] <= waterLevel) {
-            ctx.strokeStyle = "rgb(60, 40, 20)"
-           
-            ctx.beginPath()
-            ctx.moveTo(i, 500)
-            ctx.lineTo(i, map[i])
-            ctx.stroke()
-            ctx.strokeStyle = "rgb(0, 200, 255)"
-            ctx.beginPath()
-            ctx.moveTo(i, map[i])
-            ctx.lineTo(i, 0)
-            ctx.stroke()                       
-            } else {
-                ctx.strokeStyle = "rgb(60, 40, 20)"
-                ctx.beginPath()
-                ctx.moveTo(i, 500)
-                ctx.lineTo(i, map[i])
-                ctx.stroke()                
-                ctx.strokeStyle = 'blue'
-                ctx.beginPath()
-                ctx.moveTo(i, map[i])
-                ctx.lineTo(i, waterLevel)
-                ctx.stroke()
-                ctx.strokeStyle = "rgb(0, 200, 255)"
-            ctx.beginPath()
-            ctx.moveTo(i, waterLevel)
-            ctx.lineTo(i, 0)
-            ctx.stroke()                                           
-               } 
-            }                    
-        }                                
+let map = [1,1,1,1,1,1,1,1,1,1,
+           1,0,0,0,0,0,0,0,0,2,
+           1,0,0,0,0,0,0,0,0,2,
+           1,1,1,0,0,0,0,0,0,2 ,
+           1,0,0,0,0,0,0,1,0,1,
+           1,0,1,0,1,0,1,0,0,1,
+           1,0,1,0,0,0,0,0,0,1,
+           1,0,1,1,0,0,0,0,0,1,
+           1,0,0,2,0,0,0,0,0,1,
+           1,1,1,1,1,1,1,1,1,1]
+
+let up = false;
+let down = false;
+let left = false;
+let right = false;
+let rotateR = false;
+let rotateL = false;
  
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 87) {
+        up = true;
+        move();
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode === 87) {
+        up = false;
+        move();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 83) {
+        down = true;
+        move();
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode === 83) {
+        down = false;
+        move();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 65) {
+        left = true;
+        move();
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode === 65) {
+        left = false;
+        move();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 68) {
+        right = true;
+        move();
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode === 68) {
+        right = false;
+        move();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 37) {
+        rotateL = true;
+        move();
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode === 37) {
+        rotateL = false;
+        move();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 39) {
+        rotateR = true;
+        move();
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode === 39) {
+        rotateR = false;
+        move();
+    }
+});
+
+
+
+function drawSquare() {
+    ctx.fillStyle = "red";
+    ctx.fillRect(x, y, 25, 25);
+}
+
+function clearSquare() {
+    ctx.fillStyle = "black";
+    ctx.fillRect(x, y, 25, 25);
+}
+
+function move() {
+
+    clearSquare();
+    clearRays();
+    clearVision();
+
+    if(up) {
+        y--;
+    }
     
-    function load() {
+    if(down) {
+        y++;
+    }
     
-       ctx.clearRect(0, 0, 500, 500)
+    if(left) {
+        x--
+    }
     
-       var input = document.querySelector('textarea').value
-       eval(input)
-       
-       for(let i = 0; i < 501; i++) {
-       
-            if(map[i] <= waterLevel) {
-            ctx.strokeStyle = "rgb(60, 40, 20)"
-           
-            ctx.beginPath()
-            ctx.moveTo(i, 500)
-            ctx.lineTo(i, map[i])
-            ctx.stroke()
-            ctx.strokeStyle = "rgb(0, 200, 255)"
-            ctx.beginPath()
-            ctx.moveTo(i, map[i])
-            ctx.lineTo(i, 0)
-            ctx.stroke()                       
-            } else {
-                ctx.strokeStyle = "rgb(60, 40, 20)"
-                ctx.beginPath()
-                ctx.moveTo(i, 500)
-                ctx.lineTo(i, map[i])
-                ctx.stroke()                
-                ctx.strokeStyle = 'blue'
-                ctx.beginPath()
-                ctx.moveTo(i, map[i])
-                ctx.lineTo(i, waterLevel)
-                ctx.stroke()
-                ctx.strokeStyle = "rgb(0, 200, 255)"
-            ctx.beginPath()
-            ctx.moveTo(i, waterLevel)
-            ctx.lineTo(i, 0)
-            ctx.stroke()                                            
+    if(right) {
+        x++
+    }
+    
+    if(rotateL) {
+        rotation--
+    }
+    
+    if(rotateR) {
+        rotation++
+    }
+    
+    pixel = 0   
+    drawSquare();
+    castRays();
+    setTimeout(move, 4);
+}
+
+function renderMap(){
+    for(let i = 0; i < map.length; i++) {
+        const row = Math.floor(i / 10);
+        const col = i % 10;
+
+        if(map[i] === 1) {
+            ctx.fillStyle = "white";
+            ctx.fillRect(col * 50, row * 50, 50, 50);
+        } else if(map[i] === 2) {
+            ctx.fillStyle = "green";
+            ctx.fillRect(col * 50, row * 50, 50, 50);
+        }
+    }
+}
+
+function hasCollision(startX, startY, endX, endY) {
+    const tileWidth = 50; // Assuming each tile in the map is 50x50 pixels
+
+    // Calculate the row and column of the start and end points
+    const startRow = Math.floor(startY / tileWidth);
+    const startCol = Math.floor(startX / tileWidth);
+    const endRow = Math.floor(endY / tileWidth);
+    const endCol = Math.floor(endX / tileWidth);
+
+    // Check if the ray intersects with any walls
+    for (let row = Math.min(startRow, endRow); row <= Math.max(startRow, endRow); row++) {
+        for (let col = Math.min(startCol, endCol); col <= Math.max(startCol, endCol); col++) {
+            if (map[row * 10 + col] === 1 || map[row * 10 + col] === 2) {
+                return true; // Collision detected
+                                
             }
         }
     }
+
+    return false; // No collision
+}
+
+function findCollisionPoint(startX, startY, endX, endY, angle) {
+    const tileWidth = 50;
+
+    let collisionX = startX;
+    let collisionY = startY;
+
+    // Calculate the direction of the ray
+    const dx = endX - startX;
+    const dy = endY - startY;
+
+    // Calculate the length of the ray
+    const rayLength = Math.sqrt(dx * dx + dy * dy);
+
+    // Normalize the direction vector
+    const stepX = dx / rayLength;
+    const stepY = dy / rayLength;
+
+    // Incrementally check each position along the ray until collision is found
+    let posX = startX;
+    let posY = startY;
+    while (posX !== endX || posY !== endY) {
+        posX += stepX;
+        posY += stepY;
+
+        const col = Math.floor(posX / tileWidth);
+        const row = Math.floor(posY / tileWidth);
+
+        if (map[row * 10 + col] === 1) {
+    // Collision detected
+    collisionX = posX;
+    collisionY = posY;
+
+    let distance = Math.sqrt((collisionX - startX) ** 2 + ((collisionY - startY) ** 2))        
     
-    function copy() {                    
-                navigator.clipboard.writeText('map = ' + '[' + map + ']' + '; waterLevel = ' + waterLevel) 
-                                                       
-    }                 
+    
+    let brightness = 3600 / distance ** 2 * 255                
+    
+    vctx.fillStyle = "rgb(" + Math.floor(brightness) + ", 0, 0)"
+    vctx.fillRect(pixel, 0, 2, 75)       
+    
+    break;
+       }else if(map[row * 10 + col] === 2) {
+           // Collision detected
+    collisionX = posX;
+    collisionY = posY;
+
+    let distance = Math.sqrt((collisionX - startX) ** 2 + ((collisionY - startY) ** 2))        
+    
+    
+    let brightness = 3600 / distance ** 2 * 255                   
+    
+    vctx.fillStyle = "rgb(0, " + Math.floor(brightness) + ", 0)"
+    vctx.fillRect(pixel, 0, 2, 75);
+
+    break;
+       }
+}
+
+    return { x: collisionX, y: collisionY };
+}
+
+
+function castRays() {
+    const maxRayLength = 600;
+    const numRays = 1000;
+    const angleStep = 360 / numRays;
+
+    for (let angle = -30 + rotation; angle < 60 + rotation; angle += angleStep) {
+        let endX = x + Math.cos(angle * Math.PI / 180) * maxRayLength;
+        let endY = y + Math.sin(angle * Math.PI / 180) * maxRayLength;
+
+        if (hasCollision(x + 12.5, y + 12.5, endX, endY)) {
+            // If collision detected, adjust end point to collision point
+            const collisionPoint = findCollisionPoint(x + 12.5, y + 12.5, endX, endY, angle); endX = collisionPoint.x; endY = collisionPoint.y; }ctx.beginPath();
+    ctx.moveTo(x + 12.5, y + 12.5);
+    ctx.lineTo(endX, endY);
+    ctx.strokeStyle = 'blue';
+    ctx.stroke();
+    pixel += 2
+     }
+}
+
+function clearRays(){
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    renderMap();
+}
+
+function clearVision(){
+    vctx.clearRect(0, 0, canvas.width, canvas.height)
+}
+
+renderMap();
+castRays();
+drawSquare();
+move();
 </script>
+</body>
+</html>
