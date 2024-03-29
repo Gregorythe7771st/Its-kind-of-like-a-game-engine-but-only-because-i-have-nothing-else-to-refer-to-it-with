@@ -89,6 +89,14 @@
             user-select: none;
             touch-action: manipulation;
         }
+
+        div {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
         
     </style>
 </head>
@@ -101,6 +109,7 @@
 <button id="R">Left</button>
 <button id="RL">Rotate Left</button>
 <button id="RR">Rotate Right</button>
+<div>Disable map<input type="checkbox" onclick="input()"></div>    
 <script>
 let x = 250;
 let y = 200;
@@ -121,6 +130,13 @@ let map = [1,1,1,1,1,1,1,1,1,1,
            1,0,1,1,0,0,0,2,0,1,
            1,0,0,0,1,0,0,0,0,2,
            1,1,1,1,1,1,1,1,2,2]
+
+function input() {
+    let checkbox = document.querySelector('input')
+    if(checkbox.checked) {
+        canvas.style.display = 'none'
+    } 
+}    
 
 let up = false;
 let down = false;
