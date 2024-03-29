@@ -11,7 +11,7 @@
         }
         canvas {
             position: fixed;
-            top: 40%;
+            top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: black;
@@ -19,69 +19,75 @@
         
         #vision {
             position: fixed;
-            top: 60%;
+            top: 52%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
         
         #U {
             position: fixed;
-            top: 66%;
+            top:68%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             user-select: none;
+            touch-action: manipulation;
         }
         
         #D {
             position: fixed;
-            top: 75%;
+            top: 78%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             user-select: none;
+            touch-action: manipulation;
         }
         
         #R {
             position: fixed;
-            top: 70%;
-            left: 44%;
+            top: 71%;
+            left: 30%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             user-select: none;
+            touch-action: manipulation;
         }
         
         #L {
             position: fixed;
-            top: 70%;
-            left: 58%;
+            top: 71%;
+            left: 70%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             user-select: none;
+            touch-action: manipulation;
         }
         
         #RL {
             position: fixed;
-            top: 80%;
-            left: 44%;
+            top: 90%;
+            left: 40%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             user-select: none;
+            touch-action: manipulation;
         }
         
         #RR {
             position: fixed;
-            top: 80%;
-            left: 58%;
+            top: 90%;
+            left: 60%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             user-select: none;
+            touch-action: manipulation;
         }
         
     </style>
@@ -106,15 +112,15 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 let map = [1,1,1,1,1,1,1,1,1,1,
+           1,0,0,0,0,0,0,0,0,1,
            1,0,0,0,0,0,0,0,0,2,
-           1,0,0,0,0,0,0,0,0,2,
-           1,1,1,0,0,0,0,0,0,2 ,
+           1,1,1,0,0,0,0,1,0,2 ,
            1,0,0,0,0,0,0,1,0,1,
            1,0,1,0,1,0,1,0,0,1,
            1,0,1,0,0,0,0,0,0,1,
-           1,0,1,1,0,0,0,0,0,1,
-           1,0,0,2,0,0,0,0,0,1,
-           1,1,1,1,1,1,1,1,1,1]
+           1,0,1,1,0,0,0,2,0,1,
+           1,0,0,0,1,0,0,0,0,2,
+           1,1,1,1,1,1,1,1,2,2]
 
 let up = false;
 let down = false;
@@ -195,8 +201,8 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
-let buttonR = document.getElementById("L")
-let buttonL = document.getElementById("R")
+let buttonR = document.getElementById("R")
+let buttonL = document.getElementById("L")
 let buttonF = document.getElementById("U")
 let buttonB = document.getElementById("D")
 let buttonRL = document.getElementById("RL")
