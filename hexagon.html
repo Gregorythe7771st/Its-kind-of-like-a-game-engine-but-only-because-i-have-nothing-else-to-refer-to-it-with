@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Hex display</title>
+    <title>Hexagonal display</title>
     <style>
         canvas{
             background-color: #555555;
@@ -15,151 +15,114 @@
         body{
             background-color: #555555;
         }
+        
+        textarea{
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        button{
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
-    <canvas height="600px" width="600px" id="canvas"></canvas>
+    <canvas height="500px" width="500px" id="canvas"></canvas>
+    <textarea rows="15" cols="60"></textarea>
+    <button onclick="eval(document.querySelector('textarea').value)">submit</button>
     <script src="gregibrary.js"></script>
     <script>
-        let q0r0s0 = q_1r0s1 = q_2r0s2 = rgb(1, 2, 3)
-        //line 1
-        drawPointyHexagon(100, 100, 10, 'red');
-        drawPointyHexagon(109, 85, 10, 'blue');
-        drawPointyHexagon(118, 70, 10, 'green');
-        drawPointyHexagon(127, 55, 10, 'white');
-        drawPointyHexagon(136, 40, 10, q_2r0s2);
-        drawPointyHexagon(145, 25, 10, q_1r0s1);
-        drawPointyHexagon(154, 10, 10, q0r0s0);
-        //line 2
-        drawPointyHexagon(108, 115, 10, 'blue');
-        drawPointyHexagon(117, 100, 10, 'green');
-        drawPointyHexagon(126, 85, 10, 'white');
-        drawPointyHexagon(135, 70, 10, 'red');
-        drawPointyHexagon(144, 55, 10, 'blue');
-        drawPointyHexagon(153, 40, 10, 'green');
-        drawPointyHexagon(162, 25, 10, 'white');
-        drawPointyHexagon(171, 10, 10, 'red');
-        //line 3
-        drawPointyHexagon(116, 130, 10, 'green');
-        drawPointyHexagon(125, 115, 10, 'white');
-        drawPointyHexagon(134, 100, 10, 'red');
-        drawPointyHexagon(143, 85, 10, 'blue');
-        drawPointyHexagon(152, 70, 10, 'green');
-        drawPointyHexagon(161, 55, 10, 'white');
-        drawPointyHexagon(170, 40, 10, 'red');
-        drawPointyHexagon(179, 25, 10, 'green');
-        drawPointyHexagon(188, 10, 10, 'blue');
-        //line 4
-        drawPointyHexagon(124, 145, 10, 'white')
-        drawPointyHexagon(133, 130, 10, 'red');
-        drawPointyHexagon(142, 115, 10, 'blue');
-        drawPointyHexagon(151, 100, 10, 'green');
-        drawPointyHexagon(160, 85, 10, 'white');
-        drawPointyHexagon(169, 70, 10, 'red');
-        drawPointyHexagon(178, 55, 10, 'green');
-        drawPointyHexagon(187, 40, 10, 'blue');
-        drawPointyHexagon(196, 25, 10, 'white');
-        drawPointyHexagon(205, 10, 10, 'red');
-        //line 5
-        drawPointyHexagon(132, 160, 10, 'red');
-        drawPointyHexagon(141, 145, 10, 'blue');
-        drawPointyHexagon(150, 130, 10, 'green');
-        drawPointyHexagon(159, 115, 10, 'white');
-        drawPointyHexagon(168, 100, 10, 'red');
-        drawPointyHexagon(177, 85, 10, 'green');
-        drawPointyHexagon(186, 70, 10, 'blue');
-        drawPointyHexagon(195, 55, 10, 'white');
-        drawPointyHexagon(204, 40, 10, 'red');
-        drawPointyHexagon(213, 25, 10, 'green');
-        drawPointyHexagon(222, 10, 10, 'blue');
-        //line 6
-       drawPointyHexagon(140, 175, 10, 'green');
-       drawPointyHexagon(149, 160, 10, 'white');
-       drawPointyHexagon(158, 145, 10, 'red');
-       drawPointyHexagon(167, 130, 10, 'blue');
-       drawPointyHexagon(176, 115, 10, 'green');
-       drawPointyHexagon(185, 100, 10, 'white');
-       drawPointyHexagon(194, 85, 10, 'red');
-       drawPointyHexagon(203, 70, 10, 'blue');
-       drawPointyHexagon(212, 55, 10, 'green');
-       drawPointyHexagon(221, 40, 10, 'white');
-       drawPointyHexagon(230, 25, 10, 'red');
-       drawPointyHexagon(239, 10, 10, 'blue');
-//line 7
-       drawPointyHexagon(148, 190, 10, 'white');
-       drawPointyHexagon(157, 175, 10, 'red');
-       drawPointyHexagon(166, 160, 10, 'blue');
-       drawPointyHexagon(175, 145, 10, 'green');
-       drawPointyHexagon(184, 130, 10, 'white');
-       drawPointyHexagon(193, 115, 10, 'red');
-       drawPointyHexagon(202, 100, 10, 'blue');
-       drawPointyHexagon(211, 85, 10, 'green');
-       drawPointyHexagon(220, 70, 10, 'white');
-       drawPointyHexagon(229, 55, 10, 'red');
-       drawPointyHexagon(238, 40, 10, 'blue');
-       drawPointyHexagon(247, 25, 10, 'green');
-       drawPointyHexagon(256, 10, 10, 'white');
-       //line 8
-       drawPointyHexagon(165, 190, 10, 'white');
-       drawPointyHexagon(174, 175, 10, 'red');
-       drawPointyHexagon(183, 160, 10, 'blue');
-       drawPointyHexagon(192, 145, 10, 'green');
-       drawPointyHexagon(201, 130, 10, 'white');
-       drawPointyHexagon(210, 115, 10, 'red');
-       drawPointyHexagon(219, 100, 10, q0r0s0);
-       drawPointyHexagon(228, 85, 10, 'green');
-       drawPointyHexagon(237, 70, 10, 'white');
-       drawPointyHexagon(246, 55, 10, 'red');
-       drawPointyHexagon(255, 40, 10, 'blue');
-       drawPointyHexagon(264, 25, 10, 'green');
-       //line 9
-       drawPointyHexagon(182, 190, 10, 'white');
-       drawPointyHexagon(191, 175, 10, 'red');
-       drawPointyHexagon(200, 160, 10, 'blue');
-       drawPointyHexagon(209, 145, 10, 'green');
-       drawPointyHexagon(218, 130, 10, 'white');
-       drawPointyHexagon(227, 115, 10, 'red');
-       drawPointyHexagon(236, 100, 10, 'blue');
-       drawPointyHexagon(245, 85, 10, 'green');
-       drawPointyHexagon(254, 70, 10, 'white');
-       drawPointyHexagon(263, 55, 10, 'red');
-       drawPointyHexagon(272, 40, 10, 'blue');
-       //line 10
-       drawPointyHexagon(199, 190, 10, 'white');
-       drawPointyHexagon(208, 175, 10, 'red');
-       drawPointyHexagon(217, 160, 10, 'blue');
-       drawPointyHexagon(226, 145, 10, 'green');
-       drawPointyHexagon(235, 130, 10, 'white');
-       drawPointyHexagon(244, 115, 10, 'red');
-       drawPointyHexagon(253, 100, 10, 'blue');
-       drawPointyHexagon(262, 85, 10, 'green');
-       drawPointyHexagon(271, 70, 10, 'white');
-       drawPointyHexagon(280, 55, 10, 'red');
-       //line 11
-       drawPointyHexagon(216, 190, 10, 'white');
-       drawPointyHexagon(225, 175, 10, 'red');
-       drawPointyHexagon(234, 160, 10, 'blue');
-       drawPointyHexagon(243, 145, 10, 'green');
-       drawPointyHexagon(252, 130, 10, 'white');
-       drawPointyHexagon(261, 115, 10, 'red');
-       drawPointyHexagon(270, 100, 10, 'blue');
-       drawPointyHexagon(279, 85, 10, 'green');
-       drawPointyHexagon(288, 70, 10, 'white');
-       //line 12
-        drawPointyHexagon(233, 190, 10, 'white');
-       drawPointyHexagon(242, 175, 10, 'red');
-       drawPointyHexagon(251, 160, 10, 'blue');
-       drawPointyHexagon(260, 145, 10, 'green');
-       drawPointyHexagon(269, 130, 10, 'white');
-       drawPointyHexagon(278, 115, 10, 'red');
-       drawPointyHexagon(287, 100, 10, 'blue');
-       drawPointyHexagon(296, 85, 10, 'green');
-       //line 13
-       drawPointyHexagon(250, 190, 10, 'white');
-       drawPointyHexagon(259, 175, 10, 'red');
-       drawPointyHexagon(268, 160, 10, 'blue');
-       drawPointyHexagon(277, 145, 10, 'green');
-       drawPointyHexagon(286, 130, 10, 'white');
-       drawPointyHexagon(295, 115, 10, 'red');
-       drawPointyHexagon(304, 100, 10, 'blue');
-    </script>
+        let px00 = px01 = px02 = px03 = px04 = px10 = px11 = px12 = px13 = px14 = px15 = px20 = px21 = px22 = px23 = px24 = px25 = px26 = px30 = px31 = px32 = px33 = px34 = px35 = px36 = px37 = px40 = px41 = px42 = px43 = px44 = px45 = px46 = px47 = px48 = px50 = px51 = px52 = px53 = px54 = px55 = px56 = px57 = px60 = px61 = px62 = px63 = px64 = px65 = px66 = px70 = px71 = px72 = px73 = px74 = px75 = px80 = px81 = px82 = px83 = px84 = rgb(0, 0, 0);               
+        
+        function renderScreen() {                
+        
+        clearCanvas()
+        // first line
+        drawHexagon(130, 165, 20, px00);
+        drawHexagon(130, 199, 20, px01);
+        drawHexagon(130, 233, 20, px02);
+        drawHexagon(130, 267, 20, px03);
+        drawHexagon(130, 301, 20, px04);
+        // second line
+        drawHexagon(160, 148, 20, px10);
+        drawHexagon(160, 182, 20, px11);
+        drawHexagon(160, 216, 20, px12);
+        drawHexagon(160, 250, 20, px13);
+        drawHexagon(160, 284, 20, px14);
+        drawHexagon(160, 318, 20, px15);
+        
+        // third line
+        drawHexagon(190, 131, 20, px20);
+        drawHexagon(190, 165, 20, px21);
+        drawHexagon(190, 199, 20, px22);
+        drawHexagon(190, 233, 20, px23);
+        drawHexagon(190, 267, 20, px24);
+        drawHexagon(190, 301, 20, px25);
+        drawHexagon(190, 335, 20, px26);
+        //fourth line
+        drawHexagon(220, 114, 20, px30);
+        drawHexagon(220, 148, 20, px31);
+        drawHexagon(220, 182, 20, px32);
+        drawHexagon(220, 216, 20, px33);
+        drawHexagon(220, 250, 20, px34);
+        drawHexagon(220, 284, 20, px35);
+        drawHexagon(220, 318, 20, px36);
+        drawHexagon(220, 352, 20, px37);
+        
+        // fifth line
+        drawHexagon(250, 97, 20, px40);
+        drawHexagon(250, 131, 20, px41);
+        drawHexagon(250, 165, 20, px42);
+        drawHexagon(250, 199, 20, px43);
+        drawHexagon(250, 233, 20, px44);
+        drawHexagon(250, 267, 20, px45);
+        drawHexagon(250, 301, 20, px46);
+        drawHexagon(250, 335, 20, px47);
+        drawHexagon(250, 369, 20, px48);
+        
+        //sixth line
+        drawHexagon(280, 114, 20, px50);
+        drawHexagon(280, 148, 20, px51);
+        drawHexagon(280, 182, 20, px52);
+        drawHexagon(280, 216, 20, px53);
+        drawHexagon(280, 250, 20, px54);
+        drawHexagon(280, 284, 20, px55);
+        drawHexagon(280, 318, 20, px56);
+        drawHexagon(280, 352, 20, px57);
+        
+        // seventh line
+        drawHexagon(310, 131, 20, px60);
+        drawHexagon(310, 165, 20, px61);
+        drawHexagon(310, 199, 20, px62);
+        drawHexagon(310, 233, 20, px63);
+        drawHexagon(310, 267, 20, px64);
+        drawHexagon(310, 301, 20, px65);
+        drawHexagon(310, 335, 20, px66);
+                
+        // eighth line
+        drawHexagon(340, 148, 20, px70);
+        drawHexagon(340, 182, 20, px71);
+        drawHexagon(340, 216, 20, px72);
+        drawHexagon(340, 250, 20, px73);
+        drawHexagon(340, 284, 20, px74);
+        drawHexagon(340, 318, 20, px75);
+        
+        // ninth line
+        drawHexagon(370, 165, 20, px80);
+        drawHexagon(370, 199, 20, px81);
+        drawHexagon(370, 233, 20, px82);
+        drawHexagon(370, 267, 20, px83);
+        drawHexagon(370, 301, 20, px84);
+        }
+        
+        function clearScreen() {
+            px00 = px01 = px02 = px03 = px04 = px10 = px11 = px12 = px13 = px14 = px15 = px20 = px21 = px22 = px23 = px24 = px25 = px26 = px30 = px31 = px32 = px33 = px34 = px35 = px36 = px37 = px40 = px41 = px42 = px43 = px44 = px45 = px46 = px47 = px48 = px50 = px51 = px52 = px53 = px54 = px55 = px56 = px57 = px60 = px61 = px62 = px63 = px64 = px65 = px66 = px70 = px71 = px72 = px73 = px74 = px75 = px80 = px81 = px82 = px83 = px84 = rgb(0, 0, 0);
+        }
+                     
+        renderScreen();
+    </script>  
