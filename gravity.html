@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gravity</title>
+    <style>
+        canvas{
+            background-color: black;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        body{
+            background-color: #555555;
+        }               
+        
+        button {
+            position: fixed;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <canvas height="500px" width="500px" id="canvas"></canvas>
+    <script src="gregibrary.js"></script>    
+    <button onclick="gravity()">start</button>
+    <script>
+        // position        
+        let x = 250;
+        let y = 150;
+        // and these 2 are for setting the speed of the object at the start                
+        let xVelocity = 10;
+        let yVelocity = 0;
+        const size = 2
+        let acceleration = 0        
+        
+        function gravity() {
+    clearFilledCircle(x, y, size);
+    ctx.beginPath();
+    ctx.moveTo(x,y);                           
+    let distance = hypotenuse(x - 250, y - 250);            
+    let force = 9000 / distance ** 2;    
+    let xDirection = (x - 250) / distance;
+    let yDirection = (y - 250) / distance;   
+    xVelocity -= force * xDirection;
+    yVelocity -= force * yDirection;
+    // the following stuff is acceleration, like a rocket, you can do whatever with this, or just remove it if you want pure gravity. 
+    acceleration -= 0.0001 * (1 / distance)
+    xVelocity += acceleration * xVelocity;
+    yVelocity += acceleration * yVelocity;
+    // end of the acceleration stuff    
+    x += xVelocity;
+    y += yVelocity;
+    ctx.lineTo(x,y);
+    ctx.strokeStyle = 'yellow';
+    ctx.stroke();     
+    drawFilledCircle(x, y, size, 'white');            
+    requestAnimationFrame(gravity);
+}
+
+drawFilledCircle(250, 250, 15,'blue');               
+    </script>
