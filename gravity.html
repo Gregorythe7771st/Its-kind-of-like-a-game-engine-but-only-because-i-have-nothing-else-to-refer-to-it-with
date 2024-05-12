@@ -25,13 +25,13 @@
     </style>
 </head>
 <body>
-    <canvas height="500px" width="500px" id="canvas"></canvas>
+    <canvas height="900px" width="900px" id="canvas"></canvas>
     <script src="gregibrary.js"></script>    
     <button onclick="gravity()">start</button>
     <script>
         // position        
-        let x = 250;
-        let y = 150;
+        let x = 450;
+        let y = 350;
         // and these 2 are for setting the speed of the object at the start                
         let xVelocity = 10;
         let yVelocity = 0;
@@ -42,16 +42,16 @@
     clearFilledCircle(x, y, size);
     ctx.beginPath();
     ctx.moveTo(x,y);                           
-    let distance = hypotenuse(x - 250, y - 250);            
+    let distance = hypotenuse(x - 450, y - 450);            
     let force = 9000 / distance ** 2;    
-    let xDirection = (x - 250) / distance;
-    let yDirection = (y - 250) / distance;   
+    let xDirection = (x - 450) / distance;
+    let yDirection = (y - 450) / distance;   
     xVelocity -= force * xDirection;
     yVelocity -= force * yDirection;
     // the following stuff is acceleration, like a rocket, you can do whatever with this, or just remove it if you want pure gravity. 
-    acceleration -= 0.0001 * (1 / distance)
-    xVelocity += acceleration * xVelocity;
-    yVelocity += acceleration * yVelocity;
+    acceleration = 0.03 * (Math.random() * 2 - 1);
+    xVelocity += acceleration * (Math.random() * 2 - 1) * xVelocity;
+    yVelocity += acceleration * (Math.random() * 2 - 1) * yVelocity;
     // end of the acceleration stuff    
     x += xVelocity;
     y += yVelocity;
@@ -62,5 +62,5 @@
     requestAnimationFrame(gravity);
 }
 
-drawFilledCircle(250, 250, 15,'blue');               
+drawFilledCircle(450, 450, 15,'blue');               
     </script>
