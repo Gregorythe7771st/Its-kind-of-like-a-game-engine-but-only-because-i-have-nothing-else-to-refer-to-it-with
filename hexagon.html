@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hexagonal display</title>
+    <title>Hex display</title>
     <style>
         canvas{
             background-color: #555555;
             position: fixed;
-            top: 50%;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        textarea{
+            position: fixed;
+            top: 15%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -16,113 +23,36 @@
             background-color: #555555;
         }
         
-        textarea{
-            position: fixed;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
         button{
             position: fixed;
-            top: 40%;
+            top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
-    <canvas height="500px" width="500px" id="canvas"></canvas>
+    <canvas height="600px" width="600px" id="canvas"></canvas>
     <textarea rows="15" cols="60"></textarea>
     <button onclick="eval(document.querySelector('textarea').value)">submit</button>
     <script src="gregibrary.js"></script>
     <script>
-        let px00 = px01 = px02 = px03 = px04 = px10 = px11 = px12 = px13 = px14 = px15 = px20 = px21 = px22 = px23 = px24 = px25 = px26 = px30 = px31 = px32 = px33 = px34 = px35 = px36 = px37 = px40 = px41 = px42 = px43 = px44 = px45 = px46 = px47 = px48 = px50 = px51 = px52 = px53 = px54 = px55 = px56 = px57 = px60 = px61 = px62 = px63 = px64 = px65 = px66 = px70 = px71 = px72 = px73 = px74 = px75 = px80 = px81 = px82 = px83 = px84 = rgb(0, 0, 0);               
+        function pixel(q, r, s, color) {
+            var x = 20 * (Math.sqrt(3) * q + Math.sqrt(3)/2 * r) 
+            var y = 20 * (3/2 * r)
+            drawPointyHexagon(220 + x, 125 + y, 20, color)
+        }
+              
         
-        function renderScreen() {                
-        
-        clearCanvas()
-        // first line
-        drawHexagon(130, 165, 20, px00);
-        drawHexagon(130, 199, 20, px01);
-        drawHexagon(130, 233, 20, px02);
-        drawHexagon(130, 267, 20, px03);
-        drawHexagon(130, 301, 20, px04);
-        // second line
-        drawHexagon(160, 148, 20, px10);
-        drawHexagon(160, 182, 20, px11);
-        drawHexagon(160, 216, 20, px12);
-        drawHexagon(160, 250, 20, px13);
-        drawHexagon(160, 284, 20, px14);
-        drawHexagon(160, 318, 20, px15);
-        
-        // third line
-        drawHexagon(190, 131, 20, px20);
-        drawHexagon(190, 165, 20, px21);
-        drawHexagon(190, 199, 20, px22);
-        drawHexagon(190, 233, 20, px23);
-        drawHexagon(190, 267, 20, px24);
-        drawHexagon(190, 301, 20, px25);
-        drawHexagon(190, 335, 20, px26);
-        //fourth line
-        drawHexagon(220, 114, 20, px30);
-        drawHexagon(220, 148, 20, px31);
-        drawHexagon(220, 182, 20, px32);
-        drawHexagon(220, 216, 20, px33);
-        drawHexagon(220, 250, 20, px34);
-        drawHexagon(220, 284, 20, px35);
-        drawHexagon(220, 318, 20, px36);
-        drawHexagon(220, 352, 20, px37);
-        
-        // fifth line
-        drawHexagon(250, 97, 20, px40);
-        drawHexagon(250, 131, 20, px41);
-        drawHexagon(250, 165, 20, px42);
-        drawHexagon(250, 199, 20, px43);
-        drawHexagon(250, 233, 20, px44);
-        drawHexagon(250, 267, 20, px45);
-        drawHexagon(250, 301, 20, px46);
-        drawHexagon(250, 335, 20, px47);
-        drawHexagon(250, 369, 20, px48);
-        
-        //sixth line
-        drawHexagon(280, 114, 20, px50);
-        drawHexagon(280, 148, 20, px51);
-        drawHexagon(280, 182, 20, px52);
-        drawHexagon(280, 216, 20, px53);
-        drawHexagon(280, 250, 20, px54);
-        drawHexagon(280, 284, 20, px55);
-        drawHexagon(280, 318, 20, px56);
-        drawHexagon(280, 352, 20, px57);
-        
-        // seventh line
-        drawHexagon(310, 131, 20, px60);
-        drawHexagon(310, 165, 20, px61);
-        drawHexagon(310, 199, 20, px62);
-        drawHexagon(310, 233, 20, px63);
-        drawHexagon(310, 267, 20, px64);
-        drawHexagon(310, 301, 20, px65);
-        drawHexagon(310, 335, 20, px66);
-                
-        // eighth line
-        drawHexagon(340, 148, 20, px70);
-        drawHexagon(340, 182, 20, px71);
-        drawHexagon(340, 216, 20, px72);
-        drawHexagon(340, 250, 20, px73);
-        drawHexagon(340, 284, 20, px74);
-        drawHexagon(340, 318, 20, px75);
-        
-        // ninth line
-        drawHexagon(370, 165, 20, px80);
-        drawHexagon(370, 199, 20, px81);
-        drawHexagon(370, 233, 20, px82);
-        drawHexagon(370, 267, 20, px83);
-        drawHexagon(370, 301, 20, px84);
+        for(let j = 6; j < 12; j++) {
+            for(let i = 0; i < j; i ++) {
+               pixel(i - (j - 6), j - 6, -i, 'black')
+            }
         }
         
-        function clearScreen() {
-            px00 = px01 = px02 = px03 = px04 = px10 = px11 = px12 = px13 = px14 = px15 = px20 = px21 = px22 = px23 = px24 = px25 = px26 = px30 = px31 = px32 = px33 = px34 = px35 = px36 = px37 = px40 = px41 = px42 = px43 = px44 = px45 = px46 = px47 = px48 = px50 = px51 = px52 = px53 = px54 = px55 = px56 = px57 = px60 = px61 = px62 = px63 = px64 = px65 = px66 = px70 = px71 = px72 = px73 = px74 = px75 = px80 = px81 = px82 = px83 = px84 = rgb(0, 0, 0);
-        }
-                     
-        renderScreen();
-    </script>  
+        for(let j = 10; j > 5; j--) {
+            for(let i = 0; i < j; i ++) {
+               pixel(i - 5, -(j - 10) + 6, -i + (j - 10), 'black')
+            }
+        }                         
+    </script>
