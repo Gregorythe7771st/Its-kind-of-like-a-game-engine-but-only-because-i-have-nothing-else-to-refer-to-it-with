@@ -56,74 +56,112 @@
             width: 200px;
         }
         
-        #start{
-            position: fixed;
+        #start {
             top: 70%;
+            left: 50%;
+        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1D Spaceflight</title>
+    <style>
+        canvas{
+            background-color: black;
+            position: fixed;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
         
-        #capsule{
+        body{
+            background-color: #555555;
+        }
+        
+        p{
+            color: white;            
+        }
+        
+        #height{
             position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #fuel{
+            position: fixed;
+            top: 28%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #state{
+            position: fixed;
+            top: 26%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #speed{
+            position: fixed;
+            top: 32%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #slider{
+            position: fixed;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+        }
+        
+        #start{    
+            top: 70%;
+            left: 50%;            
+        }
+        
+        #capsule{
             top: 35%;
             left: 30%;
-            transform: translate(-50%, -50%);
-            width: 75px;
-            height: 75px;
         }
         
         #tank{
-            position: fixed;
             top: 40%;
             left: 30%;
-            transform: translate(-50%, -50%);
-            width: 75px;
-            height: 75px;
         }
         
         #engineMed{
-            position: fixed;
             top: 50%;
             left: 30%;
-            transform: translate(-50%, -50%);
-            width: 75px;
-            height: 75px;
         }
         
         #engineBig{
-            position: fixed;
             top: 45%;
             left: 30%;
-            transform: translate(-50%, -50%);
-            width: 75px;
-            height: 75px;
         }
         
         #engineSmall{
-            position: fixed;
             top: 55%;
-            left: 30%;
-            transform: translate(-50%, -50%);
-            width: 75px;
-            height: 75px;
+            eft: 30%;
         }
         
         #seperator{
-            position: fixed;
             top: 60%;
             left: 30%;
-            transform: translate(-50%, -50%);
-            width: 75px;
-            height: 75px;
         }
         
-        #seperate{
-            position: fixed;
+        #seperate{            
             top: 47.5%;
-            left: 70%;
+            left: 70%;            
+        }
+        
+        button{
+            position: fixed;
             transform: translate(-50%, -50%);
-            width: 75px;
-            height: 75px;
+            width: 8%;
         }
     </style>
 </head>
