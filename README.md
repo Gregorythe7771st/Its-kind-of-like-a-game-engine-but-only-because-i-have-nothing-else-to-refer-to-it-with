@@ -1,6 +1,6 @@
 <ra> Required argument
     (oa) Optional argument
-    List
+    
          add <num1> <num2> (num3…)
          adds the numbers given.
 
