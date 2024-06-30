@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greglang</title>
+    <style>
+        body {
+            background-color: #041935;
+        }
+        
+        textarea {
+            transform: translate(-50%, -50%);
+            position: fixed;
+            top:37.5%;
+            left:43%;
+            width: 86vw;
+            height: 75vh;
+            background-color: #041935;
+            color: white;
+            border: 0px;
+            outline: none;            
+        }
+        
+        button {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 12vw;
+            height: 4w;
+        }
+        
+        div {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 50vw;
+            height: 25vh;
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: 5px solid #ccc;
+            box-sizing: border-box;
+}
+    </style>
+</head>
+<body>
+    <textarea></textarea>
+    <div></div>
+    <button onclick="textToCommand()">submit</button>
+    <script>                
+        let command = ""
+        
+        function textToCommand() {
+            command = document.querySelector("textarea").value;
+            command = command.replace(/\n/g, '')
+            //divide the "lines"(different commands) up
+const lines = command.split(";");
+
+//makes variable
+function Variable(name, value){    
+        this.name = name;
+        this.value = value;
+}
+
+const variables = [];
+
+//run aforementioned lines
+for(let i = 0; i < lines.length; i++) {
+    let words = lines[i].split(" ");
+    //handling goto and if
+    if(words[0] === "goto" || words [0] === "if") {
+        if(pointing(words) !== undefined) {
+            i = pointing(words);
+            words = lines[i].split(" ");
+            if(pointing(words) !== undefined) {
+                i = pointing(words);
+                words = lines[i].split(" ");        
+            }
+        }  
+    }  
+    run(lines[i]);          
+}    
+
+
+function run(command) {
+    //split into words
+    const words = command.split(" ");
+    //get the commands type
+    const type = words.shift();
+    
+    //replace the variables with their values
+    for(let i = 0; i < words.length; i++) {    
+    for(let j = 0; j < variables.length; j++) {           
+        if(words[i] === variables[j].name.toString()) {
+            words[i] = variables[j].value.toString();
+        }
+    }
+}
+    //blank, basically
+    let value = 0;
+
+//aight im not commenting anymore for now byeee
+switch (type){
+    case "add":
+        for(let i = 0; i < words.length; i++) {
+            value += parseInt(words[i]);
+        }
+        break;
+        
+    case "sub":
+        value = words[0] - words[1];
+        break;
+    
+    case "multi":
+        value = 1;
+        for(let i = 0; i < words.length; i++) {
+            value *= words[i];
+        }
+        break;
+   
+    case "divide": 
+        value = words[0] / words[1]
+        break;
+        
+    case "round":
+        value = Math.round(words[0] * 10 ** -(words[1])) / (10 ** -(words[1]));
+        break;
+        
+    case "power":
+        value = words[0] ** words[1];
+        break;
+        
+    case "random":
+        if(words[0] === "int") {
+            value = Math.floor(Math.random() * (parseInt(words[2]) - parseInt(words[1]) + 1)) + parseInt(words[1]);            
+        } else if(words[0] === "float") {
+            value = Math.random() * (parseInt(words[2]) - parseInt(words[1])) + parseInt(words[1])
+        }
+    
+    case "not":
+        if(words[0] === "true") {
+            value = false;
+        } else if(words[0] === "false"){
+            value = true;
+        }
+        break;
+        
+    case "and":
+        if(words[0] === "true" && words[1] === "true"){
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+        
+    case "or":
+        if(words[0] === "true" || words[1] === "true") {
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+    
+    case "xor":
+        if(words[0] === "true" && words[1] === "true"){
+            value = false;
+        } else if(words[0] === "true" || words[1] === "true"){
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+        
+    case ">":
+        if(words[0] > words[1]) {
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+        
+    case "<":
+        if(words[0] < words[1]) {
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+        
+    case "==":
+        if(words[0] === words[1]) {
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+        
+    case ">=":
+        if(words[0] >= words[1]) {
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+        
+    case "<=":
+        if(words[0] <= words[1]) {
+            value = true;
+        } else {
+            value = false;
+        }
+        break;
+    
+    case "biggest":
+        words.sort((a, b) => b - a);
+        value = parseInt(words[0]);
+        break;
+        
+    case "smallest":
+        words.sort((a, b) => a - b);
+        value = parseInt(words[0]);
+        break;
+        
+    case "print":
+        if(words[0] === "true" || words[0] === "false" || !isNaN(Number(words[0]))) {
+            document.querySelector("div").innerHTML = words[0];
+        } else {
+            let expression = ""
+            for(let i = 0; i < words.length; i++) {
+                    if(i + 1 === words.length) {
+                        expression += words[i];
+                    } else {
+                        expression += words[i] + " ";          
+                }                                        
+            }
+            document.querySelector("div").innerHTML = run(expression);
+        }                
+        break;
+        
+    case "var":
+        //ok im back cuz this one is complicated
+        //get the name
+        const name = words.shift();
+        //basically if the value isnt a command
+        if(words[0] === "true" || words[0] === "false" || !isNaN(Number(words[0]))) {
+            //self explanatory
+            let variable = new Variable(name, words[0]);
+            variables.push(variable);
+        } else {
+            //since words are in an array, we gotta get em back together to run the command        
+            let expression = ""
+            for(let i = 0; i < words.length; i++) {
+                    if(i + 1 === words.length) {
+                        expression += words[i];
+                    } else {
+                        expression += words[i] + " ";          
+                }                                        
+            }
+        let variable = new Variable(name, run(expression));
+        variables.push(variable);
+        break;
+                        
+        }
+        
+    case "comment:":
+        break;
+        
+    case "set":
+    const oldWords = command.split(" ");
+    if(words[1] === "true" || words[1] === "false" || !isNaN(Number(words[1]))) {                           
+        for(let i = 0; i < variables.length; i++) {
+            if(oldWords[1] === variables[i].name) {
+                variables[i].value = oldWords[2];
+            }
+        }
+    } else {
+        words.shift();                
+        let expression = "";
+        for(let i = 0; i < words.length; i++) {
+            if(i + 1 === words.length) {
+                expression += words[i];
+            } else {
+                expression += words[i] + " ";
+            }
+        }
+        for(let i = 0; i < variables.length; i++) {
+            if(oldWords[1] === variables[i].name) {
+                variables[i].value = run(expression);
+            }
+        }
+    }
+    break;
+    
+    case "goto":        
+        break;
+        
+    case "if":        
+        break;
+    
+    
+    default:
+        document.querySelector("div").innerHTML = "what the hell is bro yapping about(Unknown command: " + type +")";
+        
+   }
+  //this is so the value of variables are assigned correctly
+  return value;
+    
+}
+
+
+function pointing(words) {    
+    if(words[0] === "goto") {
+        const i = parseInt(words[1]) - 1;
+        return i;
+        if(words[1] === "true") {
+            i = parseInt(words[2]) - 1;
+            return i;                                  
+        } else if(words[1] === "false") {
+            
+        } else {
+             let expression = "";
+        for(let j = 1; j < words.length - 1; j++) {
+            if(j + 2 === words.length) {
+                expression += words[j];
+            } else {
+                expression += words[j] + " ";
+            }                   
+          }
+          if(run(expression) === true) {
+              const i = parseInt(words.pop()) - 1;
+              return i;
+          }      
+        }
+    } else if(words[0] === "if") {
+        for(let i = 0;i < variables.length; i++) {
+        if(words[1] === variables[i].name) {
+            words[1] = variables[i].value;
+        }
+    }
+        if(words[1] === "true") {
+            const i = parseInt(words[2]) - 1;
+            return i;                                  
+        } else if(words[1] === "false") {
+            
+        } else {
+             let expression = "";
+        for(let j = 1; j < words.length - 1; j++) {
+            if(j + 2 === words.length) {
+                expression += words[j];
+            } else {
+                expression += words[j] + " ";
+            }                   
+          }
+          if(run(expression) === true) {
+              const i = parseInt(words.pop()) - 1;
+              return i;
+          }      
+        }
+      }
+}
+        }             
+
+    document.querySelector("textarea").addEventListener('focus', function() {
+        document.querySelector("div").style.display = 'none';
+    });
+
+    document.querySelector("textarea").addEventListener('blur', function() {
+        document.querySelector("div").style.display = 'block';
+    });
+
+    </script>
+</body>
+</html>
