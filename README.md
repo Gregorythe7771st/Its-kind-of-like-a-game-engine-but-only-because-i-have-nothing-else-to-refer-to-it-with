@@ -1,5 +1,5 @@
-   <ra> Required argument,
-   (oa) Optional argument
+    <ra> Required argument,
+    (oa) Optional argument
     
          add <num1> <num2> (num3…)
          adds the numbers given.
