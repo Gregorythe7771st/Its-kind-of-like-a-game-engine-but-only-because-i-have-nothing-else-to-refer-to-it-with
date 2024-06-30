@@ -79,3 +79,5 @@
 Note 1: Currently the only error handling done is to detect unknown commands. So be careful 
 
 Note 2: due to the way goto and if are structured, if you make a chain of gotos and ifs that point straight to each other, after 3 linkings any if or goto command will not run.
+
+Note 3: you must put a semicolon at the endof each line except the last one.
