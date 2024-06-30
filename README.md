@@ -64,14 +64,14 @@
        set <name> <value / command>
        same rules as var apply except this will instead change the given variable’s value.
 
-      comment:
-      allows you to leave a comment. There must be a space between the colon and your comment.
+       comment:
+       allows you to leave a comment. There must be a space between the colon and your comment.
 
-      goto <line>
-      makes the line running loop skip to the given line. See note 2.
+       goto <line>
+       makes the line running loop skip to the given line. See note 2.
 
-      if <bool / command> <line>
-      goes to the given line if the first argument is true. See note 2.
+       if <bool / command> <line>
+       goes to the given line if the first argument is true. See note 2.
 
 
 
