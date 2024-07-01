@@ -356,7 +356,7 @@ function pointing(words) {
                 expression += words[j] + " ";
             }                   
           }
-          if(run(expression, i + 1) === true) {
+          if(run(expression, -1) === true) {
               const i = parseInt(words.pop()) - 1;
               return i;
           }      
