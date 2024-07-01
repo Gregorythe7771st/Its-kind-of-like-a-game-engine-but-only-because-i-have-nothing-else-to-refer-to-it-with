@@ -50,6 +50,14 @@
     <script>
         let printed = ""                
         let command = ""
+
+        //makes variable
+        function Variable(name, value){    
+            this.name = name;
+            this.value = value;
+        }
+
+const variables = [];
         
         function textToCommand() {
             printed = ""
@@ -60,14 +68,6 @@
             
             //divide the "lines"(different commands) up
 const lines = command.split(";");
-
-//makes variable
-function Variable(name, value){    
-        this.name = name;
-        this.value = value;
-}
-
-const variables = [];
 
 //run aforementioned lines
 for(let i = 0; i < lines.length; i++) {
