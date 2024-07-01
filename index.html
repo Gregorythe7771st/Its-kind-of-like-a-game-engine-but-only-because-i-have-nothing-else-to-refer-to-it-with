@@ -77,9 +77,11 @@ for(let i = 0; i < lines.length; i++) {
         if(pointing(words) !== undefined) {
             i = pointing(words);
             words = lines[i].split(" ");
-            if(pointing(words) !== undefined) {
-                i = pointing(words);
-                words = lines[i].split(" ");        
+            if(words[0] === "goto" || words [0] === "if") {
+                if(pointing(words) !== undefined) {
+                    i = pointing(words);
+                    words = lines[i].split(" ");
+                }
             }
         }  
     }  
@@ -316,26 +318,7 @@ switch (type){
 function pointing(words) {    
     if(words[0] === "goto") {
         const i = parseInt(words[1]) - 1;
-        return i;
-        if(words[1] === "true") {
-            i = parseInt(words[2]) - 1;
-            return i;                                  
-        } else if(words[1] === "false") {
-            
-        } else {
-             let expression = "";
-        for(let j = 1; j < words.length - 1; j++) {
-            if(j + 2 === words.length) {
-                expression += words[j];
-            } else {
-                expression += words[j] + " ";
-            }                   
-          }
-          if(run(expression, i + 1) === true) {
-              const i = parseInt(words.pop()) - 1;
-              return i;
-          }      
-        }
+        return i;                
     } else if(words[0] === "if") {
         for(let i = 0;i < variables.length; i++) {
         if(words[1] === variables[i].name) {
