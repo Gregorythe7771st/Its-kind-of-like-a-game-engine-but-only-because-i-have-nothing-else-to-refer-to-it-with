@@ -83,11 +83,11 @@ for(let i = 0; i < lines.length; i++) {
             }
         }  
     }  
-    run(lines[i]);          
+    run(lines[i], i + 1);          
 }    
 
 
-function run(command) {
+function run(command, line) {
     //split into words
     const words = command.split(" ");
     //get the commands type
@@ -238,7 +238,7 @@ switch (type){
                         expression += words[i] + " ";          
                 }                                        
             }
-            printed += run(expression) + "<br>";
+            printed += run(expression, line) + "<br>";
         }                
         break;
         
@@ -261,7 +261,7 @@ switch (type){
                         expression += words[i] + " ";          
                 }                                        
             }
-        let variable = new Variable(name, run(expression));
+        let variable = new Variable(name, run(expression, line));
         variables.push(variable);
         break;
                         
@@ -290,7 +290,7 @@ switch (type){
         }
         for(let i = 0; i < variables.length; i++) {
             if(oldWords[1] === variables[i].name) {
-                variables[i].value = run(expression);
+                variables[i].value = run(expression, line);
             }
         }
     }
@@ -304,7 +304,7 @@ switch (type){
     
     
     default:
-        printed += "what the hell is bro yapping about(Unknown command: " + type +") <br>";
+        printed += "what the hell is bro yapping about(Unknown command: " + type +") on line" + line + "<br>";
         
    }
   //this is so the value of variables are assigned correctly
@@ -331,7 +331,7 @@ function pointing(words) {
                 expression += words[j] + " ";
             }                   
           }
-          if(run(expression) === true) {
+          if(run(expression, i + 1) === true) {
               const i = parseInt(words.pop()) - 1;
               return i;
           }      
@@ -356,7 +356,7 @@ function pointing(words) {
                 expression += words[j] + " ";
             }                   
           }
-          if(run(expression) === true) {
+          if(run(expression, i + 1) === true) {
               const i = parseInt(words.pop()) - 1;
               return i;
           }      
