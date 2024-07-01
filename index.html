@@ -55,7 +55,8 @@
             printed = ""
             document.querySelector("div").innerHTML = ""
             command = document.querySelector("textarea").value;
-            command = command.replace(/\n/g, '');         
+            command = command.replace(/\n/g, '');
+            variables.length = 0;
             
             //divide the "lines"(different commands) up
 const lines = command.split(";");
