@@ -50,23 +50,23 @@
     <script>
         let printed = ""                
         let command = ""
-
+        
         //makes variable
         function Variable(name, value){    
-            this.name = name;
-            this.value = value;
+             this.name = name;
+             this.value = value;
         }
 
-const variables = [];
+        const variables = [];
         
         function textToCommand() {
             printed = ""
             document.querySelector("div").innerHTML = ""
             command = document.querySelector("textarea").value;
             command = command.replace(/\n/g, '');
-            variables.length = 0;                                  
-
- //divide the "lines"(different commands) up
+            variables.length = 0;
+            
+            //divide the "lines"(different commands) up
 const lines = command.split(";");
 
 //run aforementioned lines
@@ -83,8 +83,9 @@ for(let i = 0; i < lines.length; i++) {
             }
         }  
     }  
-    run(lines[i]);
-}
+    run(lines[i]);          
+}    
+
 
 function run(command) {
     //split into words
