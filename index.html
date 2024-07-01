@@ -47,7 +47,8 @@
     <textarea></textarea>
     <div></div>
     <button onclick="textToCommand()">submit</button>
-    <script>                
+    <script>
+        let printed = ""                
         let command = ""
         
         function textToCommand() {
@@ -223,7 +224,7 @@ switch (type){
         
     case "print":
         if(words[0] === "true" || words[0] === "false" || !isNaN(Number(words[0]))) {
-            document.querySelector("div").innerHTML = words[0];
+            printed += words[0] + "<br>";
         } else {
             let expression = ""
             for(let i = 0; i < words.length; i++) {
@@ -233,7 +234,7 @@ switch (type){
                         expression += words[i] + " ";          
                 }                                        
             }
-            document.querySelector("div").innerHTML = run(expression);
+            printed += run(expression) + "<br>";
         }                
         break;
         
@@ -299,7 +300,7 @@ switch (type){
     
     
     default:
-        document.querySelector("div").innerHTML = "what the hell is bro yapping about(Unknown command: " + type +")";
+        printed += "what the hell is bro yapping about(Unknown command: " + type +") <br>";
         
    }
   //this is so the value of variables are assigned correctly
@@ -358,8 +359,9 @@ function pointing(words) {
         }
       }
 }
-        }             
+document.querySelector("div").innerHTML = printed;                     
 
+        }       
     document.querySelector("textarea").addEventListener('focus', function() {
         document.querySelector("div").style.display = 'none';
     });
