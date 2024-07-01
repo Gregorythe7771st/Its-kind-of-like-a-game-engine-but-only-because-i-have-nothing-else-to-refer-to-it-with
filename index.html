@@ -52,10 +52,10 @@
         let command = ""
         
         function textToCommand() {
-            command = document.querySelector("textarea").value;
-            command = command.replace(/\n/g, '')
-
             printed = ""
+            document.querySelector("div").innerHTML = ""
+            command = document.querySelector("textarea").value;
+            command = command.replace(/\n/g, '');         
             
             //divide the "lines"(different commands) up
 const lines = command.split(";");
