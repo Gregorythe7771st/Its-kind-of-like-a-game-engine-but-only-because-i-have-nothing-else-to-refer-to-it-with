@@ -64,9 +64,10 @@ const variables = [];
             document.querySelector("div").innerHTML = ""
             command = document.querySelector("textarea").value;
             command = command.replace(/\n/g, '');
-            variables.length = 0;
-            
-            //divide the "lines"(different commands) up
+            variables.length = 0;                                  
+         }    
+
+ //divide the "lines"(different commands) up
 const lines = command.split(";");
 
 //run aforementioned lines
@@ -83,9 +84,7 @@ for(let i = 0; i < lines.length; i++) {
             }
         }  
     }  
-    run(lines[i]);          
-}    
-
+    run(lines[i]);
 
 function run(command) {
     //split into words
