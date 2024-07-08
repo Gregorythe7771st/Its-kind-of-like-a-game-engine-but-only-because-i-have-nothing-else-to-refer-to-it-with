@@ -68,16 +68,14 @@
        allows you to leave a comment. There must be a space between the colon and your comment.
 
        goto <line>
-       makes the line running loop skip to the given line. See note 2.
+       makes the line running loop skip to the given line.
 
        if <bool / command> <line>
-       goes to the given line if the first argument is true. See note 2.
+       goes to the given line if the first argument is true.
 
 
 
 
 Note 1: Currently the only error handling done is to detect unknown commands. So be careful 
 
-Note 2: due to the way goto and if are structured, if you make a chain of gotos and ifs that point straight to each other, after 3 linkings any if or goto command will not run.
-
-Note 3: you must put a semicolon at the endof each line except the last one.
+Note 2: you must put a semicolon at the endof each line except the last one.
