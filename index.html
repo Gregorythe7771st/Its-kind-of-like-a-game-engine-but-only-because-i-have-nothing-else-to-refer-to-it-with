@@ -54,6 +54,7 @@
 function textToCommand() {
          printed = ""
          command = document.querySelector("textarea").value;
+         command = command.replace(/\n/g, '');
                  
         //divide the "lines"(different commands) up
 const lines = command.split(";");
