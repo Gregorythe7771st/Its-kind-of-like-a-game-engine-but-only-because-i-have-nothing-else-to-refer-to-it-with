@@ -311,6 +311,15 @@
             // Combine the integer and fractional parts
             return senaryIntegerPart + (senaryFractionalPart ? '.' + senaryFractionalPart : '');
         }
+
+        document.querySelector("textarea").addEventListener('focus', function() {
+            document.querySelector("div").style.display = 'none';
+        });
+
+        document.querySelector("textarea").addEventListener('blur', function() {
+            document.querySelector("div").style.display = 'block';            
+        });
+        
     </script>
 </body>
 </html>            
