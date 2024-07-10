@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Senlang</title>
+    <style>
+        body {
+            background-color: #041935;
+        }
+
+        textarea {
+            transform: translate(-50%, -50%);
+            position: fixed;
+            top: 37.5%;
+            left: 43%;
+            width: 86vw;
+            height: 75vh;
+            background-color: #041935;
+            color: white;
+            border: 0px;
+            outline: none;
+        }
+
+        button {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 12vw;
+            height: 4vw;
+        }
+
+        div {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 50vw;
+            height: 25vh;
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: 5px solid #ccc;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <textarea></textarea>
+    <div></div>
+    <button onclick="textToCommand()">submit</button>
+    <script>
+        let printed = "";
+        let command = "";
+
+        function textToCommand() {
+            printed = "";
+            command = document.querySelector("textarea").value;
+            command = command.replace(/\n/g, ';');
+
+            //divide the "lines"(different commands) up
+            const lines = command.split(";");
+            let currentLine = 0;
+
+            //makes variable
+            function Variable(name, value) {
+                this.name = name;
+                this.value = value;
+            }
+
+            const variables = [];
+
+            //run aforementioned lines
+            while (currentLine < lines.length) {
+                const words = lines[currentLine].split(" ");
+                for (let i = 0; i < words.length; i++) {
+                    for (let j = 0; j < variables.length; j++) {
+                        if (words[i] == variables[j].name) {
+                            words[i] = variables[j].value;
+                        }
+                    }
+                    print = false;
+                }
+                run(words);
+                currentLine++;
+            }
+
+            function run(words) {
+                for (let i = 0; i < words.length; i++) {
+                    switch (words[i]) {
+                        case "+":
+                            words[i - 1] = decToSen(senToDec(words[i - 1]) + senToDec(words[i + 1]));
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "-":
+                            words[i - 1] = decToSen(senToDec(words[i - 1]) - senToDec(words[i + 1]));
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "*":
+                            words[i - 1] = decToSen(senToDec(words[i - 1]) * senToDec(words[i + 1]));
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "/":
+                            words[i - 1] = decToSen(senToDec(words[i - 1]) / senToDec(words[i + 1]));
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "**":
+                            words[i - 1] = decToSen(senToDec(words[i - 1]) ** senToDec(words[i + 1]));
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "round":
+                            words[i + 1] = decToSen(Math.round(senToDec(parseFloat(words[i + 1]).toString())));
+                            return words[i + 1];
+                            words.splice(i, 1);
+                            i--;
+                            break;
+
+                        case "random":
+                            words[i] = decToSen(Math.random());
+                            return words[i];
+                            i--;
+                            break;
+
+                        case "print":
+                            words.splice(0, 1);
+                            print = true;
+                            run(words);
+                            printed += words[0] + "<br>";
+                            break;
+
+                        case "not":
+                            words[i] = !parseBool(words[i + 1]);
+                            words.splice(i + 1, 1);
+                            i--;
+                            break;
+
+                        case "and":
+                            words[i - 1] = parseBool(words[i - 1]) && parseBool(words[i + 1]);
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "or":
+                            words[i - 1] = parseBool(words[i - 1]) || parseBool(words[i + 1]);
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case ">":
+                            words[i - 1] = words[i - 1] > words[i + 1];
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "<":
+                            words[i - 1] = words[i - 1] < words[i + 1];
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case ">=":
+                            words[i - 1] = words[i - 1] >= words[i + 1];
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "<=":
+                            words[i - 1] = words[i - 1] <= words[i + 1];
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "==":
+                            words[i - 1] = words[i - 1] == words[i + 1];
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;
+
+                        case "var":
+                            const name = words[1];
+                            words.splice(0, 3);
+                            let variable = new Variable(name, run(words));
+                            variables.push(variable);
+                            break;
+
+                        case "set":
+                            const name2 = lines[currentLine].split(" ")[1];
+                            words.splice(0, 3);
+                            for (let j = 0; j < variables.length; j++) {
+                                if (name2 == variables[j].name) {
+                                    variables[j].value = run(words);
+                                }
+                            }
+                            break;
+
+                        case "goto":
+                            currentLine = senToDec(words[1]) - 2;
+                            break;
+
+                        case "if":
+                            const line = words.pop();
+                            words.splice(0, 1);
+                            words.pop();
+                            if (run(words)) {
+                                currentLine = senToDec(line) - 2;
+                            }
+                            break;
+
+                        case "stop":
+                            currentLine = lines.length - 1;
+                            break;
+
+                        case "#":
+                            i = words.length - 1;
+                            break;
+
+                        default:
+                            if (words.length == 1) {
+                                return words[0];
+                            }
+                    }
+                }
+            }
+
+            document.querySelector("div").innerHTML = printed;
+        }
+
+        function parseBool(str) {
+            if (str == "true") {
+                return true;
+            } else if (str == "false") {
+                return false;
+            } else {
+                return undefined;
+            }
+        }
+
+        function senToDec(senary) {
+            const [integerPart, fractionalPart] = senary.split('.');
+
+            // Convert the integer part using BigInt for precision
+            let integerDecimal = BigInt(0);
+            for (let i = 0; i < integerPart.length; i++) {
+                if (integerPart[i] > 5) {
+                    printed = "BaseError: The number provided is not in senary.";
+                } else {
+                    integerDecimal = integerDecimal * BigInt(6) + BigInt(integerPart[i]);
+                }
+            }
+
+            // Convert the fractional part
+            let fractionalDecimal = 0;
+            if (fractionalPart) {
+                for (let i = 0; i < fractionalPart.length; i++) {
+                    if (fractionalPart[i] > 5) {
+                        printed = "BaseError: The number provided is not in senary.";
+                    } else {
+                        fractionalDecimal += fractionalPart[i] / Math.pow(6, i + 1);
+                    }
+                }
+            }
+
+            // Combine integer and fractional parts
+            return parseFloat(integerDecimal.toString()) + fractionalDecimal;
+        }
+
+        function decToSen(decimal) {
+            // Split the number into integer and fractional parts
+            let [integerPart, fractionalPart] = decimal.toString().split('.');
+            integerPart = parseInt(integerPart, 10);
+            fractionalPart = fractionalPart ? '0.' + fractionalPart : '0';
+            fractionalPart = parseFloat(fractionalPart);
+
+            // Convert the integer part to senary
+            let senaryIntegerPart = '';
+            while (integerPart > 0) {
+                senaryIntegerPart = (integerPart % 6) + senaryIntegerPart;
+                integerPart = Math.floor(integerPart / 6);
+            }
+            senaryIntegerPart = senaryIntegerPart || '0';
+
+            // Convert the fractional part to senary
+            let senaryFractionalPart = '';
+            let precision = 22; // Number of digits after the decimal point in senary
+            while (fractionalPart > 0 && precision > 0) {
+                fractionalPart *= 6;
+                let fractionalDigit = Math.floor(fractionalPart);
+                senaryFractionalPart += fractionalDigit;
+                fractionalPart -= fractionalDigit;
+                precision--;
+            }
+
+            // Combine the integer and fractional parts
+            return senaryIntegerPart + (senaryFractionalPart ? '.' + senaryFractionalPart : '');
+        }
+    </script>
+</body>
+</html>            
