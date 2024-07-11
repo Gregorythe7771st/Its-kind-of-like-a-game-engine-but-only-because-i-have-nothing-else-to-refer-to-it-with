@@ -35,7 +35,7 @@ changes the line the program is on to the line
 if [expression] goto [line]
 if the expression is true it changes the line the program is on to <line>
 
-# [comment]
+/# [comment]
 comment. gets skipped.(make sure you seperate the # from what you will be typing)
 
 
