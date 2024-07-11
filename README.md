@@ -2,40 +2,40 @@ this is some frankly garbage code(it was made in one singular day) that runs a s
 
 the basic math operations are normal(+, -, /, *, **)
 
-round <num>
+round [num]
 rounds the number to an integer
 
 random
 Gets replaced with a random number
 
-print <code/anything else>
+print [code/anything else]
 prints the thing
 
-not <bool>
-<bool> and <bool>
-<bool> or <bool>
+not [bool]
+[bool] and [bool]
+[bool] or [bool]
 the respective logical operations
 
-<num> > <num>
-<num> < <num>
-<num / bool> == <num / bool>
-<num> >= <num>
-<num> <= <num>
+[num] > [num]
+[num] < [num]
+[num / bool] == [num / bool]
+[num] >= [num]
+[num] <= [num]
 they do their thing it should be obvious
 
-var <name> = <value / code>
+var [name] = [value / code]
 sets up a variable
 
-set <name> = <value / code>
+set [name] = [value / code]
 changes the value of a variable
 
-goto <line>
+goto [line]
 changes the line the program is on to the line
 
-if <expression> goto <line>
+if [expression] goto [line]
 if the expression is true it changes the line the program is on to <line>
 
-# <comment>
+# [comment]
 comment. gets skipped.(make sure you seperate the # from what you will be typing)
 
 
