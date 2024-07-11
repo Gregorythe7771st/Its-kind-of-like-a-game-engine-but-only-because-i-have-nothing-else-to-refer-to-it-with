@@ -30,7 +30,7 @@ set <name> = <value / code>
 changes the value of a variable
 
 goto <line>
-changes the line the programm is on to <line>
+changes the line the program is on to the line
 
 if <expression> goto <line>
 if the expression is true it changes the line the program is on to <line>
