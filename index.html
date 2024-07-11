@@ -67,7 +67,7 @@
                 this.value = value;
             }
 
-            const variables = [];
+            const variables = [];            
 
             //run aforementioned lines
             while (currentLine < lines.length) {
@@ -81,7 +81,7 @@
                     print = false;
                 }
                 run(words);
-                currentLine++;
+                currentLine++;                
             }
 
             function run(words) {
@@ -137,52 +137,54 @@
                         case "print":
                             words.splice(0, 1);
                             print = true;
-                            run(words);
-                            printed += words[0] + "<br>";
+                            printed += run(words) + "<br>";
                             break;
 
                         case "not":
                             words[i] = !parseBool(words[i + 1]);
+                            return words[i - 1];
                             words.splice(i + 1, 1);
                             i--;
                             break;
 
                         case "and":
                             words[i - 1] = parseBool(words[i - 1]) && parseBool(words[i + 1]);
+                            return words[i - 1];
                             words.splice(i, 2);
                             i--;
                             break;
 
                         case "or":
                             words[i - 1] = parseBool(words[i - 1]) || parseBool(words[i + 1]);
-                            words.splice(i, 2);
-                            i--;
-                            break;
-
-                        case ">":
-                            words[i - 1] = words[i - 1] > words[i + 1];
                             return words[i - 1];
                             words.splice(i, 2);
                             i--;
                             break;
 
-                        case "<":
-                            words[i - 1] = words[i - 1] < words[i + 1];
-                            return words[i - 1];
+                        case ">":                                                                                                
+                            words[i - 1] = (parseFloat(words[i - 1]) > parseFloat(words[i + 1]));
+                            return words[i - 1];                                                           
                             words.splice(i, 2);
                             i--;
                             break;
 
-                        case ">=":
-                            words[i - 1] = words[i - 1] >= words[i + 1];
-                            return words[i - 1];
+                        case "<":                                                                                               
+                            words[i - 1] = (parseFloat(words[i - 1]) < parseFloat(words[i + 1]));
+                            return words[i - 1];                                                                                                            
+                            words.splice(i, 2);                            
+                            i--;
+                            break;
+
+                        case ">=":                           
+                            words[i - 1] = (parseFloat(words[i - 1]) >= parseFloat(words[i + 1]));
+                            return words[i - 1];                            
                             words.splice(i, 2);
                             i--;
                             break;
 
-                        case "<=":
-                            words[i - 1] = words[i - 1] <= words[i + 1];
-                            return words[i - 1];
+                        case "<=":                            
+                            words[i - 1] = (parseFloat(words[i - 1]) <= parseFloat(words[i + 1]));
+                            return words[i - 1];                                                       
                             words.splice(i, 2);
                             i--;
                             break;
@@ -216,20 +218,20 @@
                             break;
 
                         case "if":
-                            const line = words.pop();
-                            words.splice(0, 1);
+                            const line = words.pop();                                                        
                             words.pop();
-                            if (run(words)) {
-                                currentLine = senToDec(line) - 2;
+                            words.splice(0, 1);                                   
+                            if (run(words) || run(words) == "true") {                                
+                                currentLine = senToDec(line) - 2;                                    
                             }
                             break;
 
                         case "stop":
-                            currentLine = lines.length - 1;
+                            currentLine = lines.length;
                             break;
 
                         case "#":
-                            i = words.length - 1;
+                            i = words.length;
                             break;
 
                         default:
@@ -260,7 +262,7 @@
             let integerDecimal = BigInt(0);
             for (let i = 0; i < integerPart.length; i++) {
                 if (integerPart[i] > 5) {
-                    printed = "BaseError: The number provided is not in senary.";
+                    printed += "BaseError: The number provided is not in senary.";
                 } else {
                     integerDecimal = integerDecimal * BigInt(6) + BigInt(integerPart[i]);
                 }
@@ -271,7 +273,7 @@
             if (fractionalPart) {
                 for (let i = 0; i < fractionalPart.length; i++) {
                     if (fractionalPart[i] > 5) {
-                        printed = "BaseError: The number provided is not in senary.";
+                        printed += "BaseError: The number provided is not in senary.";
                     } else {
                         fractionalDecimal += fractionalPart[i] / Math.pow(6, i + 1);
                     }
@@ -311,7 +313,7 @@
             // Combine the integer and fractional parts
             return senaryIntegerPart + (senaryFractionalPart ? '.' + senaryFractionalPart : '');
         }
-
+        
         document.querySelector("textarea").addEventListener('focus', function() {
             document.querySelector("div").style.display = 'none';
         });
@@ -319,7 +321,6 @@
         document.querySelector("textarea").addEventListener('blur', function() {
             document.querySelector("div").style.display = 'block';            
         });
-        
     </script>
 </body>
-</html>            
+</html>
