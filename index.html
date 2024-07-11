@@ -142,7 +142,7 @@
 
                         case "not":
                             words[i] = !parseBool(words[i + 1]);
-                            return words[i - 1];
+                            return words[i];
                             words.splice(i + 1, 1);
                             i--;
                             break;
