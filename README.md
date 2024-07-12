@@ -1,6 +1,6 @@
 this is some frankly garbage code(it was made in one singular day) that runs a senary(base 6) programming language which i call senlang.
 
-the basic math operations are normal(+, -, /, *, **)
+the basic math operations are normal(+, -, /, *, **, //)
 
 round [num]
 
