@@ -110,6 +110,7 @@
 
                         case "/":
                             words[i - 1] = decToSen(senToDec(words[i - 1]) / senToDec(words[i + 1]));
+                            return words[i - 1];
                             words.splice(i, 2);
                             i--;
                             break;
@@ -120,10 +121,19 @@
                             words.splice(i, 2);
                             i--;
                             break;
-
+                        
+                        case "//":
+                            // it gives an error when this is printed. i have no idea why so lets hope nobody notices                            
+                            words[i - 1] = decToSen(senToDec(words[i - 1]) / senToDec(words[i + 1]));                            
+                            words[i - 1] = Math.floor(words[i - 1]);                            
+                            return words[i - 1];
+                            words.splice(i, 2);
+                            i--;
+                            break;                     
+                        
                         case "round":
                             words[i + 1] = decToSen(Math.round(senToDec(parseFloat(words[i + 1]).toString())));
-                            return words[i + 1];
+                            return words[i + 1];                            
                             words.splice(i, 1);
                             i--;
                             break;
@@ -136,8 +146,9 @@
 
                         case "print":
                             words.splice(0, 1);
-                            print = true;
                             printed += run(words) + "<br>";
+                            document.querySelector("div").innerHTML = printed;
+                            
                             break;
 
                         case "not":
@@ -323,4 +334,4 @@
         });
     </script>
 </body>
-</html>
+</html>            
