@@ -52,12 +52,12 @@ changes the value of a variable
 
 goto [line]
 
-changes the line the program is on to the line
+changes the line the program is on to [line]
 
 
 if [expression] goto [line]
 
-if the expression is true it changes the line the program is on to <line>
+if the expression is true it changes the line the program is on to [line]
 
 
 /# [comment]
