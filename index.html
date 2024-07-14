@@ -139,7 +139,16 @@
                             if(i == words.length - 1) {
                                 return words[i];
                             }
-                            break;                     
+                            break;
+
+                        case "%":
+                            words[i - 1] = decToSen(senToDec(words[i - 1]) % senToDec(words[i + 1]));                                           
+                            words.splice(i, 2);                
+                            i--;
+                            if(i == words.length - 1) {
+                                return words[i];
+                            }
+                            break;
                         
                         case "round":
                             words[i] = decToSen(Math.round(senToDec(words[i + 1])));                                           
