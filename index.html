@@ -238,6 +238,14 @@
                                 return words[i];
                             break;
 
+                         case "!=":
+                            words[i - 1] = (parseFloat(words[i - 1]) != parseFloat(words[i + 1]));
+                            words.splice(i, 2);
+                            i--;
+                            if(i == words.length - 1)
+                                return words[i];
+                            break;
+
                         case "var":
                             const name = words[1];
                             words.splice(0, 3);
