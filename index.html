@@ -54,11 +54,9 @@
 
         function textToCommand() {
             printed = "";
-            command = document.querySelector("textarea").value;
-            command = command.replace(/\n/g, ';');
-
-            //divide the "lines"(different commands) up
-            const lines = command.split(";");
+            command = document.querySelector("textarea").value;           
+        
+            const lines = command.split("\n");
             let currentLine = 0;
 
             //setting up variable thingies
@@ -91,8 +89,11 @@
                         words.splice(i, words.length - i);
                     }                                              
 
+                    if(words[i] == "random") {
+                        words[i] = decToSen(Math.random());                            
+                    }                            
                                         
-                    //parantheses stuff that i dont know how i managed to get to work tbh
+                    //parantheses stuff
                     if(words[i][0] == "(") {                                     
                         parantheses.push(i);                       
                         words[i] = words[i].replace(/\(/g, '');                                      
@@ -119,7 +120,10 @@
                             words[i] = variables[j].value;
                         }
                     }
-                }                                           
+                }
+                if(paranthesesCount(words) > 0) {
+                    printed += "It seems like something went wrong with the parantheses at line " + decToSen(currentLine - 2);
+                }                                    
                 run(words);
                 currentLine++;                                              
             }
@@ -175,9 +179,9 @@
                             }
                             break;
                         
-                        case "//":                                                    
-                            words[i - 1] = Math.floor(decToSen(senToDec(words[i - 1]) / senToDec(words[i + 1])));                                           
-                            words.splice(i, 2);                
+                        case "floor":                                                    
+                            words[i] = Math.floor(senToDec(words[i + 1]));                                           
+                            words.splice(i + 1, 1);                
                             i--;
                             if(i == words.length - 1) {
                                 return words[i];
@@ -206,14 +210,7 @@
                             if(i == words.length - 1) {
                                 return words[i + 1];
                             }
-                            break;
-
-                        case "random":
-                            words[i] = decToSen(Math.random());
-                            if(i == words.length - 1) {
-                                return words[i];
-                            }
-                            break;
+                            break;                        
 
                         case "print":
                             //making sure we dont continue running
@@ -301,11 +298,10 @@
                         case "var":
                             i = words.length;
                             const name = lines[currentLine].split(" ")[1];
-                            // give an error if the user declares an already existing variable
                             for(let j = 0; j < variables.length; j++) {
                                 if(variables[j].name == name) {
                                     printed += name + " has already been declared.";                                                                                                                                          
-                                }
+                                }                                                               
                             }
                             words.splice(0, 3);                            
                             let variable = new Variable(name, run(words));
@@ -385,8 +381,9 @@
             // Convert the integer part using BigInt for precision
             let integerDecimal = BigInt(0);
             for (let i = 0; i < integerPart.length; i++) {
-                if (integerPart[i] > 5) {
+                if (parseInt(integerPart[i]) > 5) {
                     printed += "The number provided is not in senary.";
+                    document.querySelector("div").innerHTML = printed;
                 } else {
                     integerDecimal = integerDecimal * BigInt(6) + BigInt(integerPart[i]);
                 }
@@ -396,8 +393,9 @@
             let fractionalDecimal = 0;
             if (fractionalPart) {
                 for (let i = 0; i < fractionalPart.length; i++) {
-                    if (fractionalPart[i] > 5) {
+                    if (parseInt(fractionalPart[i]) > 5) {
                         printed += "The number provided is not in senary.";
+                        document.querySelector("div").innerHTML = printed;
                     } else {
                         fractionalDecimal += fractionalPart[i] / Math.pow(6, i + 1);
                     }
@@ -425,8 +423,26 @@
 
             // Convert the fractional part to senary
             let senaryFractionalPart = '';
-            let precision = 22; // Number of digits after the decimal point in senary
+            let precision = 17; // Number of digits after the decimal point in senary
             while (fractionalPart > 0 && precision > 0) {
                 fractionalPart *= 6;
                 let fractionalDigit = Math.floor(fractionalPart);
-                senaryFractio
+                senaryFractionalPart += fractionalDigit;
+                fractionalPart -= fractionalDigit;
+                precision--;
+            }
+
+            // Combine the integer and fractional parts
+            return senaryIntegerPart + (senaryFractionalPart ? '.' + senaryFractionalPart : '');
+        }
+        
+        document.querySelector("textarea").addEventListener('focus', function() {
+            document.querySelector("div").style.display = 'none';
+        });
+
+        document.querySelector("textarea").addEventListener('blur', function() {
+            document.querySelector("div").style.display = 'block';            
+        });
+    </script>
+</body>
+</html>            
