@@ -2,7 +2,7 @@ this is some frankly garbage code(it was made in one singular day) that runs a s
 
 the basic math operations are normal(+, -, /, *, **, //, %)
 (no order of operations)
-(parantheses do work, however you cannot nest them)
+(parantheses do work)
 
 round [num]
 
@@ -74,4 +74,4 @@ stop
 stops the program you're running
 
 
-You dont need to put a semicolon at the end of a line, the program does it for you, but you CAN do that now
+You dont need to put a semicolon at the end of a line, the program does it for you.
