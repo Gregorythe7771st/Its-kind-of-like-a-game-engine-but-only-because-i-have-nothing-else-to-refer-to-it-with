@@ -77,7 +77,7 @@
                         lines.splice(currentLine, 1);
                     }
                     
-                const words = lines[currentLine].split(" ");
+                let words = lines[currentLine].split(" ");
                 for (let i = 0; i < words.length; i++) {
                 
                    //if word empty, useless
@@ -88,8 +88,25 @@
                     //if comment, useless
                     if(words[i][0] == "#") {
                         words.splice(i, words.length - i);
-                    }
+                    }                                              
                                         
+                    //parantheses
+                    if(words[i][0] == "(")  {                      
+                        let expression = "";                    
+                        expression = words[i].replace(/^\(/, '');
+                                                                                                                                     
+                        for(let j = i + 1; j < words.length; j++) {                            
+                                if(words[j][words[j].length - 1] == ")") {
+                                    expression += " " + words[j].replace(/\)$/, '');                                                                                                                                                                                                     
+                                    words.splice(i + 1, j);                                     
+                                    expression.substring(0, expression.length - 2);                                                                                                                                                 
+                                    words[i] = run(expression.split(" "));                                                                                                                                                                             
+                                } else {
+                                    expression += " " + words[j];                                                                                                                      
+                                }
+                            }
+                        }                                                             
+
                     
                     for (let j = 0; j < variables.length; j++) {
                         // replace variable names with the values
@@ -168,7 +185,7 @@
                             if(i == words.length - 1) {
                                 return words[i];
                             }
-                            break;
+                            break;                                                    
                             
                         case "sqrt":
                            words[i] = decToSen(Math.sqrt(senToDec(words[i + 1])));
@@ -299,12 +316,18 @@
                             break;
 
                         case "if":
-                            i = words.length;
-                            const line = words.pop();                                                        
-                            words.pop();
-                            words.splice(0, 1);                                   
+                            i = words.length                                                                        
+                            words.splice(0, 1);
+                            let expression;
+                            for(let j = 0; j < words.length; j++) {
+                                if(words[j] == "then") {
+                                    expression = words.slice(j + 1, words.length);
+                                    words.splice(j, words.length - j);
+                                }
+                            }                            
+                                                                                           
                             if (run(words) || run(words) == "true") {                                
-                                currentLine = senToDec(line) - 2;                                    
+                                run(expression)                                    
                             }
                             break;
 
