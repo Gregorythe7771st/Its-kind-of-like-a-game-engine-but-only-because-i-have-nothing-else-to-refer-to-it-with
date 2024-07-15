@@ -33,6 +33,7 @@ the respective logical operations
 [num] < [num]
 
 [num / bool] == [num / bool]
+[num / bool] != [num / bool]
 
 [num] >= [num]
 
@@ -68,4 +69,4 @@ if the expression is true it changes the line the program is on to [line]
 comment. gets skipped.(make sure you seperate the # from what you will be typing)
 
 
-do not put a semicolon at the end of a line, the program does it for you(you can if you really want but you'll just be wasting it's time)
+do not put a semicolon at the end of a line, the program does it for you
