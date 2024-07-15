@@ -149,6 +149,12 @@
                                 return words[i];
                             }
                             break;
+                            
+                        case "sqrt":
+                           words[i] = decToSen(Math.sqrt(senToDec(words[i + 1])));
+                           words.splice(i + 1, 1);
+                           i--;
+                           return words[i + 1];
                         
                         case "round":
                             words[i] = decToSen(Math.round(senToDec(words[i + 1])));                                           
@@ -167,6 +173,7 @@
                             break;
 
                         case "print":
+                            i = words.length;
                             words.splice(0, 1);
                             printed += run(words) + "<br>";
                             document.querySelector("div").innerHTML = printed;                            
@@ -283,7 +290,17 @@
                         case "#":
                             i = words.length;
                             break;
-
+                            
+                        case "":
+                            words.splice(i, 1);
+                            i--;
+                            break;
+                            
+                        case " ":
+                            words.splice(i, 1);
+                            i--;
+                            break;
+                                                        
                         default:
                             if (words.length == 1) {
                                 return words[0];
@@ -312,7 +329,7 @@
             let integerDecimal = BigInt(0);
             for (let i = 0; i < integerPart.length; i++) {
                 if (integerPart[i] > 5) {
-                    printed += "BaseError: The number provided is not in senary.";
+                    printed += "The number provided is not in senary.";
                 } else {
                     integerDecimal = integerDecimal * BigInt(6) + BigInt(integerPart[i]);
                 }
@@ -323,7 +340,7 @@
             if (fractionalPart) {
                 for (let i = 0; i < fractionalPart.length; i++) {
                     if (fractionalPart[i] > 5) {
-                        printed += "BaseError: The number provided is not in senary.";
+                        printed += "The number provided is not in senary.";
                     } else {
                         fractionalDecimal += fractionalPart[i] / Math.pow(6, i + 1);
                     }
