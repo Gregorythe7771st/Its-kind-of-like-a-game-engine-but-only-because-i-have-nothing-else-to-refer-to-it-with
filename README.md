@@ -68,5 +68,9 @@ if the expression is true it changes the line the program is on to [line]
 
 comment. gets skipped.(make sure you seperate the # from what you will be typing)
 
+stop
+
+stops the program you're running
+
 
 do not put a semicolon at the end of a line, the program does it for you
