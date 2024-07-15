@@ -61,7 +61,7 @@
             const lines = command.split(";");
             let currentLine = 0;
 
-            //makes variable
+            //setting up variable thingies
             function Variable(name, value) {
                 this.name = name;
                 this.value = value;
@@ -71,18 +71,38 @@
 
             //run aforementioned lines
             while (currentLine < lines.length) {
+            
+                //if line empty, useless
+                if(lines[currentLine] == "" || lines[currentLine] == " ") {
+                        lines.splice(currentLine, 1);
+                    }
+                    
                 const words = lines[currentLine].split(" ");
                 for (let i = 0; i < words.length; i++) {
+                
+                   //if word empty, useless
+                    if(words[i] == "" || words[i] == " ") {
+                        words.splice(i, 1);
+                    }
+                    
+                    //if comment, useless
+                    if(words[i][0] == "#") {
+                        words.splice(i, words.length - i);
+                    }
+                                        
+                    
                     for (let j = 0; j < variables.length; j++) {
+                        // replace variable names with the values
                         if (words[i] == variables[j].name) {
                             words[i] = variables[j].value;
                         }
                     }
-                    print = false;
                 }
                 run(words);
                 currentLine++;                
             }
+
+// a lot of the stuff below should be pretty self explanatory tbh, so dont expect to see a lot of comments 
 
             function run(words) {
                 for (let i = 0; i < words.length; i++) {
@@ -173,9 +193,11 @@
                             break;
 
                         case "print":
+                            //making sure we dont continue running
                             i = words.length;
                             words.splice(0, 1);
                             printed += run(words) + "<br>";
+                            //the div is like the console btw
                             document.querySelector("div").innerHTML = printed;                            
                             break;
 
@@ -254,6 +276,7 @@
                             break;
 
                         case "var":
+                            i = words.length;
                             const name = words[1];
                             words.splice(0, 3);
                             let variable = new Variable(name, run(words));
@@ -261,6 +284,7 @@
                             break;
 
                         case "set":
+                            i = words.length;
                             const name2 = lines[currentLine].split(" ")[1];
                             words.splice(0, 3);
                             for (let j = 0; j < variables.length; j++) {
@@ -275,6 +299,7 @@
                             break;
 
                         case "if":
+                            i = words.length;
                             const line = words.pop();                                                        
                             words.pop();
                             words.splice(0, 1);                                   
@@ -285,21 +310,7 @@
 
                         case "stop":
                             currentLine = lines.length;
-                            break;
-
-                        case "#":
-                            i = words.length;
-                            break;
-                            
-                        case "":
-                            words.splice(i, 1);
-                            i--;
-                            break;
-                            
-                        case " ":
-                            words.splice(i, 1);
-                            i--;
-                            break;
+                            break;                                                                        
                                                         
                         default:
                             if (words.length == 1) {
