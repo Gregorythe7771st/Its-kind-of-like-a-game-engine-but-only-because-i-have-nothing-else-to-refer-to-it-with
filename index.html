@@ -78,7 +78,8 @@
                     }
                     
                 let words = lines[currentLine].split(" ");
-                for (let i = 0; i < words.length; i++) {
+                const parantheses = []
+                for (let i = 0; i < words.length; i++) {                
                 
                    //if word empty, useless
                     if(words[i] == "" || words[i] == " ") {
@@ -89,24 +90,28 @@
                     if(words[i][0] == "#") {
                         words.splice(i, words.length - i);
                     }                                              
-                                        
-                    //parantheses
-                    if(words[i][0] == "(")  {                      
-                        let expression = "";                    
-                        expression = words[i].replace(/^\(/, '');
-                                                                                                                                     
-                        for(let j = i + 1; j < words.length; j++) {                            
-                                if(words[j][words[j].length - 1] == ")") {
-                                    expression += " " + words[j].replace(/\)$/, '');                                                                                                                                                                                                     
-                                    words.splice(i + 1, j);                                     
-                                    expression.substring(0, expression.length - 2);                                                                                                                                                 
-                                    words[i] = run(expression.split(" "));                                                                                                                                                                             
-                                } else {
-                                    expression += " " + words[j];                                                                                                                      
-                                }
-                            }
-                        }                                                             
 
+                                        
+                    //parantheses stuff that i dont know how i managed to get to work tbh
+                    if(words[i][0] == "(") {                                     
+                        parantheses.push(i);                       
+                        words[i] = words[i].replace(/\(/g, '');                                      
+                    }                   
+                    
+                    if(words[i][words[i].length - 1] == ")") {                                                                                     
+                        const start = parantheses.pop();                                                                                                                                                                   
+                        words[i] = words[i].replace(/\)/g, '');                                                                                                                                        
+                        let expression = words.slice(start, i + 1);
+                        for(let j = 0; j < expression.length; j++) {
+                            if(expression[j] == '') {
+                                expression.splice(j, 1);
+                            }
+                        }                                                                                                                                                                                                                                     
+                        words[start] = run(expression);                                     
+                        words.splice(start + 1, i - start);
+                        i -= i - start;                                                                                                                                        
+                    }                                                                                                                                                           
+                                        
                     
                     for (let j = 0; j < variables.length; j++) {
                         // replace variable names with the values
@@ -114,10 +119,11 @@
                             words[i] = variables[j].value;
                         }
                     }
-                }
+                }                                           
                 run(words);
-                currentLine++;                
+                currentLine++;                                              
             }
+            
 
 // a lot of the stuff below should be pretty self explanatory tbh, so dont expect to see a lot of comments 
 
@@ -294,10 +300,17 @@
 
                         case "var":
                             i = words.length;
-                            const name = words[1];
-                            words.splice(0, 3);
+                            const name = lines[currentLine].split(" ")[1];
+                            // give an error if the user declares an already existing variable
+                            for(let j = 0; j < variables.length; j++) {
+                                if(variables[j].name == name) {
+                                    printed += name + " has already been declared.";                                                                                                                                          
+                                }
+                                console.log(name + "\n" + variables[j].name)
+                            }
+                            words.splice(0, 3);                            
                             let variable = new Variable(name, run(words));
-                            variables.push(variable);
+                            variables.push(variable);                            
                             break;
 
                         case "set":
@@ -344,6 +357,17 @@
             }
 
             document.querySelector("div").innerHTML = printed;
+        }
+
+
+        function paranthesesCount(words) {
+            let count = 0;
+            for(let i = 0; i < words.length; i++) {
+                if(words[i][0] == "(" || words[i][words[i].length - 1] == ")") {
+                    count++;
+                }
+            }
+            return count;
         }
 
         function parseBool(str) {
@@ -406,22 +430,4 @@
             while (fractionalPart > 0 && precision > 0) {
                 fractionalPart *= 6;
                 let fractionalDigit = Math.floor(fractionalPart);
-                senaryFractionalPart += fractionalDigit;
-                fractionalPart -= fractionalDigit;
-                precision--;
-            }
-
-            // Combine the integer and fractional parts
-            return senaryIntegerPart + (senaryFractionalPart ? '.' + senaryFractionalPart : '');
-        }
-        
-        document.querySelector("textarea").addEventListener('focus', function() {
-            document.querySelector("div").style.display = 'none';
-        });
-
-        document.querySelector("textarea").addEventListener('blur', function() {
-            document.querySelector("div").style.display = 'block';            
-        });
-    </script>
-</body>
-</html>            
+                senaryFractio
