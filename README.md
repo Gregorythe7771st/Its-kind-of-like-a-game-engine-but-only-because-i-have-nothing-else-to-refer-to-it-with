@@ -66,11 +66,12 @@ if the expression is true it changes the line the program is on to [line]
 
 (ignore the slash i had to add it so github didn't do its styling)
 
-comment. gets skipped.(make sure you seperate the # from what you will be typing)
+comment. gets skipped.
+
 
 stop
 
 stops the program you're running
 
 
-do not put a semicolon at the end of a line, the program does it for you
+You dont need to put a semicolon at the end of a line, the program does it for you, but you CAN do that now
