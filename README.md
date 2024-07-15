@@ -2,7 +2,7 @@ this is some frankly garbage code(it was made in one singular day) that runs a s
 
 the basic math operations are normal(+, -, /, *, **, //, %)
 (no order of operations)
-(no parantheses)
+(parantheses do work, however you cannot nest them)
 
 round [num]
 
@@ -57,9 +57,9 @@ goto [line]
 changes the line the program is on to [line]
 
 
-if [expression] goto [line]
+if [statement] then [expression]
 
-if the expression is true it changes the line the program is on to [line]
+if the statement is true it runs [expression]
 
 
 /# [comment]
