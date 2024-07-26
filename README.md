@@ -1,4 +1,7 @@
-this is some frankly garbage code(it was made in one singular day) that runs a senary(base 6) programming language which i call senlang. (this is currently in the process of being rewritten to hopefully make adding new features easier, so don't expect many updates)
+this is some frankly garbage code(it was made in one singular day) that runs a senary(base 6) programming language which i call senlang. 
+(this is currently in the process of being rewritten to hopefully make adding new features easier, so don't expect many updates)
+
+(update on that, i've burnt myself out and probably will not work on this or the rewrite anymore)
 
 the basic math operations are normal(+, -, /, *, **, //, %)
 (no order of operations)
